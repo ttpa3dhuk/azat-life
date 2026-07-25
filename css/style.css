@@ -1,0 +1,410 @@
+/* ============================================================
+   azat.life — одностраничник
+   Тёмная тема, акцент — янтарь сценического света
+   ============================================================ */
+
+:root {
+  --bg: #0d0d11;
+  --bg-raised: #16161c;
+  --bg-card: #1a1a22;
+  --border: #2a2a33;
+  --text: #e8e6e1;
+  --text-dim: #9a97a0;
+  --accent: #f2a33c;
+  --accent-soft: rgba(242, 163, 60, 0.12);
+  --max-width: 1000px;
+  --radius: 14px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* ---------- Навигация ---------- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 18px 24px;
+  backdrop-filter: blur(12px);
+  background: rgba(13, 13, 17, 0.8);
+}
+
+.nav__logo {
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.nav__links {
+  display: flex;
+  gap: 26px;
+}
+
+.nav__links a {
+  color: var(--text-dim);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav__links a:hover {
+  color: var(--text);
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 96px 24px 72px;
+  display: flex;
+  align-items: center;
+  gap: 56px;
+}
+
+.hero__text {
+  flex: 1;
+}
+
+.hero__photo {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+}
+
+.hero__kicker {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-size: clamp(44px, 8vw, 76px);
+  margin-bottom: 22px;
+}
+
+.hero__lead {
+  max-width: 560px;
+  font-size: 20px;
+  color: var(--text-dim);
+  margin-bottom: 36px;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Кнопки ---------- */
+
+.btn {
+  display: inline-block;
+  padding: 13px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 16px;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s;
+}
+
+.btn:hover {
+  border-color: var(--text-dim);
+  transform: translateY(-1px);
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #16130c;
+}
+
+.btn--primary:hover {
+  border-color: var(--accent);
+  filter: brightness(1.08);
+}
+
+/* ---------- Принцип ---------- */
+
+.principle {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-raised);
+}
+
+.principle blockquote {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 56px 24px;
+  font-size: clamp(20px, 3vw, 26px);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* ---------- Клиенты ---------- */
+
+.clients {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 56px 24px 8px;
+}
+
+.clients__label {
+  color: var(--text-dim);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 18px;
+}
+
+.clients__logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 42px;
+}
+
+/* все логотипы лежат на холсте одной высоты и отцентрованы внутри него —
+   поэтому единая height здесь ставит их на общую линию */
+.clients__logos img {
+  display: block;
+  height: 44px;
+  width: auto;
+  opacity: 0.5;
+  transition: opacity 0.2s;
+}
+
+.clients__logos img:hover {
+  opacity: 1;
+}
+
+.clients__note {
+  max-width: 620px;
+  margin-top: 26px;
+  font-size: 16px;
+  color: var(--text-dim);
+}
+
+.clients__note a {
+  border-bottom: 1px solid var(--accent-soft);
+}
+
+.clients__note a:hover {
+  border-bottom-color: var(--accent);
+}
+
+/* ---------- Секции ---------- */
+
+.section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 80px 24px 0;
+}
+
+.section h2 {
+  font-size: clamp(30px, 4.5vw, 40px);
+  margin-bottom: 30px;
+}
+
+.section__intro {
+  max-width: 620px;
+  color: var(--text-dim);
+  margin: -14px 0 34px;
+}
+
+/* ---------- Карточки ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 18px;
+}
+
+.cards--projects {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (max-width: 640px) {
+  .cards--projects {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card h3 {
+  font-size: 20px;
+}
+
+.card p {
+  color: var(--text-dim);
+  font-size: 16px;
+  flex-grow: 1;
+}
+
+.card__tag {
+  align-self: flex-start;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+/* ---------- Путь ---------- */
+
+.path__lead {
+  max-width: 680px;
+  font-size: 19px;
+  line-height: 1.7;
+  color: var(--text-dim);
+  margin-bottom: 44px;
+}
+
+.stories {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+.story {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 22px;
+}
+
+.story h3 {
+  font-size: 19px;
+  margin-bottom: 10px;
+}
+
+.story p {
+  color: var(--text-dim);
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .stories {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+/* ---------- Миссия ---------- */
+
+.section--mission p {
+  max-width: 680px;
+  font-size: 19px;
+  line-height: 1.7;
+}
+
+/* ---------- Контакты ---------- */
+
+.section--contact {
+  padding-bottom: 40px;
+}
+
+.contact__actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Футер ---------- */
+
+.footer {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 48px 24px 40px;
+  color: var(--text-dim);
+  font-size: 14px;
+  border-top: 1px solid var(--border);
+  margin-top: 72px;
+}
+
+/* ---------- Мобильная версия ---------- */
+
+@media (max-width: 640px) {
+  .nav__links {
+    gap: 16px;
+  }
+
+  .nav__links a {
+    font-size: 13px;
+  }
+
+  .hero {
+    padding-top: 56px;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 28px;
+  }
+
+  .hero__photo {
+    width: 132px;
+    height: 132px;
+    border-radius: 22px;
+  }
+
+  .clients__list {
+    font-size: 17px;
+    gap: 8px 22px;
+  }
+
+  .section {
+    padding-top: 60px;
+  }
+}
