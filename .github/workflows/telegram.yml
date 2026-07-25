@@ -1,0 +1,36 @@
+name: Свежие записи из Telegram
+
+# Дважды в день: 06:00 и 18:00 UTC — это 09:00 и 21:00 по Москве.
+# Плюс кнопка ручного запуска, если пост нужен на сайте прямо сейчас.
+on:
+  schedule:
+    - cron: "0 6,18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: telegram-posts
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Забрать посты канала
+        run: python3 tools/fetch_posts.py
+
+      - name: Закоммитить, если что-то изменилось
+        run: |
+          if git diff --quiet -- assets/posts.json; then
+            echo "новых записей нет"
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/posts.json
+          git commit -m "Свежие записи из Telegram"
+          git push

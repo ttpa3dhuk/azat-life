@@ -343,6 +343,51 @@ ul, ol {
   }
 }
 
+/* ---------- Записи из Telegram ---------- */
+
+.posts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 30px;
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  color: var(--text);
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.post:hover {
+  border-color: var(--text-dim);
+  transform: translateY(-2px);
+}
+
+.post__date {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: lowercase;
+}
+
+.post__text {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@media (max-width: 860px) {
+  .posts {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ---------- Миссия ---------- */
 
 .section--mission p {
@@ -379,11 +424,18 @@ ul, ol {
 
 @media (max-width: 640px) {
   .nav__links {
-    gap: 16px;
+    gap: 18px;
   }
 
   .nav__links a {
-    font-size: 13px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  /* пять пунктов в ширину телефона не влезают: первые разделы всё равно
+     идут сразу под шапкой, поэтому на узких экранах оставляем только дальние */
+  .nav__minor {
+    display: none;
   }
 
   .hero {

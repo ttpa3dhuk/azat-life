@@ -20,9 +20,10 @@
   <header class="nav">
     <a class="nav__logo" href="#top">azat.life</a>
     <nav class="nav__links">
-      <a href="#work">Что делаю</a>
-      <a href="#path">Путь</a>
+      <a class="nav__minor" href="#work">Что делаю</a>
+      <a class="nav__minor" href="#path">Путь</a>
       <a href="#rnd">R&amp;D</a>
+      <a href="#blog">Telegram</a>
       <a href="#contact">Контакты</a>
     </nav>
   </header>
@@ -149,6 +150,16 @@
       </div>
     </section>
 
+    <!-- ============ ТЕЛЕГРАМ ============ -->
+    <!-- Записи берутся из assets/posts.json, который дважды в день обновляет
+         .github/workflows/telegram.yml. Секция скрыта, пока файл не прочитан. -->
+    <section class="section section--posts" id="blog" hidden>
+      <h2>Пишу в Telegram</h2>
+      <p class="section__intro">Как устроены мероприятия изнутри и что выходит из моих инженерных затей.</p>
+      <div class="posts" id="posts"></div>
+      <a class="btn" href="https://t.me/azatlife" target="_blank" rel="noopener">Читать канал</a>
+    </section>
+
     <!-- ============ МИССИЯ ============ -->
     <section class="section section--mission">
       <h2>Куда смотрю</h2>
@@ -173,6 +184,45 @@
   <footer class="footer">
     <p>© 2026 Азат Хусаенов · azat.life</p>
   </footer>
+
+  <script>
+    // Свежие записи канала. Файл обновляется роботом на GitHub, поэтому здесь
+    // только отрисовка: если данных нет — секция просто остаётся скрытой.
+    (async () => {
+      const section = document.getElementById('blog');
+      const holder = document.getElementById('posts');
+      try {
+        const res = await fetch('assets/posts.json', { cache: 'no-cache' });
+        if (!res.ok) return;
+        const { posts } = await res.json();
+        if (!posts || !posts.length) return;
+
+        const fmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long' });
+        for (const post of posts) {
+          const card = document.createElement('a');
+          card.className = 'post';
+          card.href = post.url;
+          card.target = '_blank';
+          card.rel = 'noopener';
+
+          const date = document.createElement('time');
+          date.className = 'post__date';
+          date.dateTime = post.date;
+          date.textContent = fmt.format(new Date(post.date));
+
+          const text = document.createElement('p');
+          text.className = 'post__text';
+          text.textContent = post.text;
+
+          card.append(date, text);
+          holder.append(card);
+        }
+        section.hidden = false;
+      } catch (e) {
+        /* сеть недоступна или файл битый — секции просто не будет */
+      }
+    })();
+  </script>
 
 </body>
 </html>
