@@ -307,12 +307,88 @@ ul, ol {
 
 /* ---------- Путь ---------- */
 
-.path__lead {
-  max-width: 680px;
-  font-size: 19px;
-  line-height: 1.7;
-  color: var(--text-dim);
-  margin-bottom: 44px;
+/* Лента этапов: слева колонка с годом, справа описание.
+   Линия и точка живут в зазоре между колонками — отсюда точные left. */
+.timeline {
+  max-width: 720px;
+  margin-bottom: 48px;
+}
+
+.timeline li {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  column-gap: 30px;
+  padding-bottom: 30px;
+  position: relative;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: 110px;
+  top: 16px;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+
+.timeline li:last-child {
+  padding-bottom: 0;
+}
+
+.timeline li:last-child::before {
+  display: none;
+}
+
+.timeline li::after {
+  content: "";
+  position: absolute;
+  left: 105px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.timeline__when {
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.6;
+  text-align: right;      /* годы прижаты к ленте — разной длины, но зазор до точки одинаковый */
+}
+
+.timeline__what {
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .timeline li {
+    grid-template-columns: 1fr;
+    row-gap: 4px;
+    padding-left: 26px;
+    padding-bottom: 26px;
+  }
+
+  .timeline li::before {
+    left: 5px;
+    top: 14px;
+  }
+
+  .timeline li::after {
+    left: 0;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+  }
+
+  /* колонок нет — год стоит над описанием, прижимать его вправо незачем */
+  .timeline__when {
+    text-align: left;
+  }
 }
 
 .stories {
