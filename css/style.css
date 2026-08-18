@@ -305,6 +305,33 @@ ul, ol {
   border-radius: 999px;
 }
 
+/* Карточка-ссылка: пока такая одна — CueDeck ведёт на свою страницу.
+   Цвет заголовка возвращаем, иначе он наследует акцент от <a>. */
+.card--link {
+  color: var(--text);
+  transition: border-color 0.15s;
+}
+
+.card--link:hover {
+  border-color: var(--accent);
+}
+
+.card--link h3 {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.card--link h3::after {
+  content: "→";
+  color: var(--accent);
+  transition: transform 0.15s;
+}
+
+.card--link:hover h3::after {
+  transform: translateX(4px);
+}
+
 /* ---------- Путь ---------- */
 
 /* Лента этапов: слева колонка с годом, справа описание.
