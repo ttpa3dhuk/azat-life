@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CueDeck — программа для показа презентаций на мероприятиях</title>
+  <meta name="description" content="Бесплатный инструмент оператора презентаций на живых мероприятиях: окна оператора, суфлёра и зала, плейлист спикеров, таймеры, PDF, PPTX, видео и живой вход. Mac и Windows.">
+  <meta property="og:title" content="CueDeck — программа для показа презентаций на мероприятиях">
+  <meta property="og:description" content="Три окна: оператору — что дальше, спикеру — таймер и заметки, залу — только слайд. Бесплатно, Mac и Windows.">
+  <meta property="og:url" content="https://azat.life/cuedeck/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://azat.life/assets/cuedeck/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101014'/%3E%3Ccircle cx='32' cy='30' r='13' fill='%23f2a33c'/%3E%3Crect x='14' y='48' width='36' height='5' rx='2.5' fill='%23f2a33c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cuedeck.css">
+</head>
+<body>
+
+  <header class="nav">
+    <a class="nav__logo" href="/">azat.life</a>
+    <nav class="nav__links">
+      <a href="#windows">Как устроено</a>
+      <a href="#features">Возможности</a>
+      <a href="#video">Обзор</a>
+      <a href="#download">Скачать</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="cd-hero" id="download">
+      <p class="cd-hero__kicker">Бесплатно · Mac и Windows</p>
+      <h1>CueDeck</h1>
+      <p class="cd-hero__lead">
+        Инструмент оператора презентаций на живых мероприятиях.
+        Все спикеры в одной очереди, зал видит только слайд.
+      </p>
+
+      <div class="cd-downloads" id="downloads">
+        <a class="cd-dl cd-dl--primary" id="dl-silicon"
+           href="https://github.com/ttpa3dhuk/CueDeck/releases/latest">
+          Скачать для Mac
+          <span class="cd-dl__sub">Apple Silicon · M1 и новее</span>
+        </a>
+        <a class="cd-dl" id="dl-intel"
+           href="https://github.com/ttpa3dhuk/CueDeck/releases/latest">
+          Mac Intel
+          <span class="cd-dl__sub">процессор Intel</span>
+        </a>
+        <a class="cd-dl" id="dl-win"
+           href="https://github.com/ttpa3dhuk/CueDeck/releases/latest">
+          Windows
+          <span class="cd-dl__sub">64-битная, 10 и 11</span>
+        </a>
+      </div>
+
+      <p class="cd-meta">
+        <span class="cd-meta__free">Полностью бесплатно</span>,
+        без регистрации и без ограничений. <span id="release-meta">Исходники открыты.</span>
+      </p>
+    </section>
+
+    <!-- ============ ТРИ ОКНА ============ -->
+    <section class="cd-section" id="windows">
+      <h2>Три окна вместо одного экрана</h2>
+      <p class="cd-section__intro">
+        Обычная смотрелка показывает одно и то же и вам, и залу. Здесь у каждого
+        своё окно: оператор видит служебное, спикер — своё, зал — только слайд.
+      </p>
+
+      <div class="cd-windows">
+        <article class="cd-window">
+          <img class="cd-window__shot" src="../assets/cuedeck/operator-small.webp" data-full="../assets/cuedeck/operator.webp"
+               alt="Окно оператора: текущий и следующий слайд, плейлист, таймер" loading="lazy">
+          <h3>Оператор</h3>
+          <p>Текущий слайд и следующий, плейлист спикеров, таймер, заметки и монитор того, что реально уходит в зал.</p>
+        </article>
+        <article class="cd-window">
+          <img class="cd-window__shot" src="../assets/cuedeck/speaker-small.webp" data-full="../assets/cuedeck/speaker.webp"
+               alt="Окно суфлёра: слайд спикера, таймер выступления, сообщения" loading="lazy">
+          <h3>Суфлёр</h3>
+          <p>Спикеру — его слайд, следующий, таймер выступления и сообщения от оператора. Оборачиваться на экран не нужно.</p>
+        </article>
+        <article class="cd-window">
+          <img class="cd-window__shot" src="../assets/cuedeck/audience-small.webp" data-full="../assets/cuedeck/audience.webp"
+               alt="Окно зала: слайд во весь экран без интерфейса" loading="lazy">
+          <h3>Зал</h3>
+          <p>Только слайд во весь экран. Ни курсора, ни панелей, ни рабочего стола, ни alt-tab между файлами.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ ВОЗМОЖНОСТИ ============ -->
+    <section class="cd-section" id="features">
+      <h2>Что умеет</h2>
+      <p class="cd-section__intro">
+        Всё, что делалось под живые прогоны, а не под демонстрацию возможностей.
+      </p>
+
+      <div class="cd-features">
+        <article class="cd-feature">
+          <h3>Плейлист спикеров</h3>
+          <p>Все выступления в одной очереди. Файл кидается перетаскиванием, порядок меняется мышкой. Флешка за две минуты до выхода — просто ещё одна строка.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Любые форматы</h3>
+          <p>PDF, PowerPoint и Keynote, изображения, видео. Разные форматы лежат в одной очереди и открываются одинаково.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Видео внутри презентации</h3>
+          <p>Ролик, вшитый в слайд PowerPoint, играет поверх слайда. Анимации «по клику» разворачиваются в шаги и листаются кликером.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Таймеры</h3>
+          <p>Обратный отсчёт, секундомер или часы. Пресеты по правой кнопке, размер и угол на суфлёре настраиваются. Зал таймер не видит.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Связь со спикером</h3>
+          <p>Шесть готовых сообщений на суфлёр в одно нажатие: «две минуты», «закругляйтесь». Плюс заметки к выступлению.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Живой вход</h3>
+          <p>Картинка с HDMI-капчера, камеры или айфона по Continuity — как обычный элемент плейлиста. Устройство удерживается, чтобы не моргало при переключении.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Предпрослушка</h3>
+          <p>Отдельный выход в наушники: послушать принесённый ролик до того, как он уйдёт в зал. Индикаторы уровня по эфиру и превью.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Заставка и затемнение</h3>
+          <p>Ключевой визуал между выступлениями одной кнопкой — вместо чёрного экрана и вместо рабочего стола.</p>
+        </article>
+        <article class="cd-feature">
+          <h3>Проекты под флешку</h3>
+          <p>Плейлист сохраняется файлом проекта. «Собрать проект в папку» кладёт рядом все материалы — папка переезжает между машинами целиком.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ ОБЗОР ============ -->
+    <section class="cd-section" id="video">
+      <h2>Обзор</h2>
+      <p class="cd-section__intro">
+        Подробный разбор всех окон и настроек — как это работает на прогоне.
+      </p>
+      <div class="cd-video">
+        <iframe src="https://www.youtube-nocookie.com/embed/Vi5BDG_WoRg"
+                title="CueDeck — обзор программы"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- ============ ТРЕБОВАНИЯ ============ -->
+    <section class="cd-section" id="req">
+      <h2>Что нужно</h2>
+      <div class="cd-req">
+        <div class="cd-req__item">
+          <h3>macOS</h3>
+          <p>Отдельные сборки для Apple Silicon и Intel. Программа подписана ad-hoc — при первом запуске откройте её через правую кнопку → «Открыть».</p>
+        </div>
+        <div class="cd-req__item">
+          <h3>Windows</h3>
+          <p>64-битная Windows 10 или 11. Архив распаковывается в любую папку, установка не нужна.</p>
+        </div>
+        <div class="cd-req__item">
+          <h3>Для PowerPoint и Keynote</h3>
+          <p>Нужен установленный LibreOffice — через него конвертируются PPTX, PPT, ODP и KEY. Для PDF, картинок и видео он не требуется.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ ПОДВАЛ ============ -->
+  <footer class="cd-footer">
+    <div class="cd-footer__links">
+      <a href="https://github.com/ttpa3dhuk/CueDeck" target="_blank" rel="noopener">Исходники на GitHub</a>
+      <a href="https://github.com/ttpa3dhuk/CueDeck/issues" target="_blank" rel="noopener">Сообщить о проблеме</a>
+      <a href="https://t.me/azatlife" target="_blank" rel="noopener">Телеграм-канал</a>
+      <a href="/">Об авторе</a>
+    </div>
+    <p>
+      Программу пишет Азат Хусаенов — технический директор мероприятий.
+      Она выросла из собственных прогонов, поэтому пожелания с площадки приветствуются.
+      Лицензия MIT.
+    </p>
+  </footer>
+
+  <!-- Просмотр скриншота во весь экран -->
+  <div class="cd-lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр скриншота">
+    <button class="cd-lightbox__close" id="lightbox-close" type="button" aria-label="Закрыть">&times;</button>
+    <button class="cd-lightbox__nav cd-lightbox__nav--prev" id="lightbox-prev" type="button" aria-label="Предыдущий">&#8249;</button>
+    <button class="cd-lightbox__nav cd-lightbox__nav--next" id="lightbox-next" type="button" aria-label="Следующий">&#8250;</button>
+    <img id="lightbox-img" src="" alt="">
+    <p class="cd-lightbox__caption" id="lightbox-caption"></p>
+  </div>
+
+  <script>
+    /* Кнопки скачивания ведут прямо на архивы последнего релиза.
+       Имя файла содержит версию, поэтому ссылки берутся из GitHub API,
+       а не зашиваются руками. Не ответил — остаётся ссылка на страницу релизов. */
+    (async () => {
+      const REPO = 'ttpa3dhuk/CueDeck';
+      const targets = [
+        ['dl-silicon', /Silicon-mac\.zip$/i],
+        ['dl-intel',   /Intel-mac\.zip$/i],
+        ['dl-win',     /win\.zip$/i],
+      ];
+      try {
+        const r = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`);
+        if (!r.ok) return;
+        const rel = await r.json();
+        const assets = rel.assets || [];
+
+        for (const [id, re] of targets) {
+          const asset = assets.find(a => re.test(a.name));
+          const el = document.getElementById(id);
+          if (!asset || !el) continue;
+          el.href = asset.browser_download_url;
+          const sub = el.querySelector('.cd-dl__sub');
+          if (sub) {
+            const mb = Math.round(asset.size / 1048576);
+            sub.textContent = `${sub.textContent} · ${mb} МБ`;
+          }
+        }
+
+        const meta = document.getElementById('release-meta');
+        if (meta && rel.tag_name) {
+          const date = new Date(rel.published_at);
+          const fmt = new Intl.DateTimeFormat('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+          const when = fmt.format(date).replace(/\s*г\.$/, '');
+          meta.textContent = `Версия ${rel.tag_name.replace(/^v/, '')} от ${when}. Исходники открыты.`;
+        }
+      } catch (e) {
+        /* сети нет или лимит API — кнопки ведут на страницу релизов */
+      }
+    })();
+
+    /* Скриншоты открываются во весь экран по клику. */
+    (() => {
+      const box = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      const cap = document.getElementById('lightbox-caption');
+      const closeBtn = document.getElementById('lightbox-close');
+      const prevBtn = document.getElementById('lightbox-prev');
+      const nextBtn = document.getElementById('lightbox-next');
+      let lastFocused = null;
+      let index = 0;
+
+      // Собираем все скриншоты один раз — по ним и листаем.
+      const shots = [];
+      document.querySelectorAll('.cd-window').forEach(card => {
+        const shot = card.querySelector('.cd-window__shot');
+        const title = card.querySelector('h3');
+        if (!shot || shot.tagName !== 'IMG') return;
+        const i = shots.length;
+        // В сетке лежит облегчённая картинка, по клику подгружаем полную из data-full.
+        shots.push({ src: shot.dataset.full || shot.src, alt: shot.alt, caption: title ? title.textContent : '' });
+        shot.addEventListener('click', () => open(i));
+      });
+
+      const multiple = shots.length > 1;
+      prevBtn.hidden = nextBtn.hidden = !multiple;
+
+      function show(i) {
+        index = (i + shots.length) % shots.length;
+        const s = shots[index];
+        img.src = s.src;
+        img.alt = s.alt;
+        cap.textContent = multiple ? `${s.caption} — ${index + 1} из ${shots.length}` : s.caption;
+      }
+
+      function open(i) {
+        if (!shots.length) return;
+        lastFocused = document.activeElement;
+        show(i);
+        box.setAttribute('open', '');
+        document.body.style.overflow = 'hidden';
+        closeBtn.focus();
+      }
+
+      function close() {
+        box.removeAttribute('open');
+        document.body.style.overflow = '';
+        img.src = '';
+        if (lastFocused) lastFocused.focus();
+      }
+
+      // Клик по кнопкам не должен закрывать окно — оно закрывается кликом по фону.
+      prevBtn.addEventListener('click', e => { e.stopPropagation(); show(index - 1); });
+      nextBtn.addEventListener('click', e => { e.stopPropagation(); show(index + 1); });
+      img.addEventListener('click', e => e.stopPropagation());
+      closeBtn.addEventListener('click', close);
+
+      box.addEventListener('click', close);
+      document.addEventListener('keydown', e => {
+        if (!box.hasAttribute('open')) return;
+        if (e.key === 'Escape') close();
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); show(index - 1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); show(index + 1); }
+      });
+    })();
+
+    /* Скриншота ещё нет — вместо битой картинки показываем аккуратную заглушку. */
+    document.querySelectorAll('.cd-window__shot').forEach(img => {
+      img.addEventListener('error', () => {
+        const box = document.createElement('div');
+        box.className = 'cd-window__shot cd-window__placeholder';
+        box.textContent = 'Скриншот появится здесь';
+        img.replaceWith(box);
+      });
+    });
+  </script>
+
+</body>
+</html>
