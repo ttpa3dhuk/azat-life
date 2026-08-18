@@ -150,13 +150,17 @@
       <p class="cd-section__intro">
         Подробный разбор всех окон и настроек — как это работает на прогоне.
       </p>
-      <div class="cd-video">
-        <iframe src="https://www.youtube-nocookie.com/embed/Vi5BDG_WoRg"
-                title="CueDeck — обзор программы"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-      </div>
+      <!-- Не встроенный проигрыватель, а обложка со своего сервера: YouTube
+           в России открывается не у всех, и iframe оставлял пустую рамку. -->
+      <a class="cd-video" href="https://www.youtube.com/watch?v=Vi5BDG_WoRg"
+         target="_blank" rel="noopener" aria-label="Смотреть обзор CueDeck на YouTube">
+        <img src="../assets/cuedeck/video-poster.webp" alt="Обзор CueDeck" loading="lazy">
+        <span class="cd-video__play" aria-hidden="true"></span>
+      </a>
+      <p class="cd-video__note">
+        Откроется на YouTube — 40 минут разбора.
+        <a href="https://www.youtube.com/watch?v=Vi5BDG_WoRg" target="_blank" rel="noopener">Ссылка на ролик</a>
+      </p>
     </section>
 
     <!-- ============ ТРЕБОВАНИЯ ============ -->

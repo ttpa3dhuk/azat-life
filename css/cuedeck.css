@@ -268,6 +268,12 @@
 
 .cd-video:hover .cd-video__play { transform: translate(-50%, -50%) scale(1.08); background: #ffb44f; }
 
+.cd-video__note {
+  margin-top: 14px;
+  color: var(--text-dim);
+  font-size: 15px;
+}
+
 /* ---------- Требования ---------- */
 
 .cd-req {
