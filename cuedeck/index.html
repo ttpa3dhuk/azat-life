@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CueDeck — программа для показа презентаций на мероприятиях</title>
-  <meta name="description" content="Бесплатный инструмент оператора презентаций на живых мероприятиях: окна оператора, суфлёра и зала, плейлист спикеров, таймеры, PDF, PPTX, видео и живой вход. Mac и Windows.">
-  <meta property="og:title" content="CueDeck — программа для показа презентаций на мероприятиях">
-  <meta property="og:description" content="Три окна: оператору — что дальше, спикеру — таймер и заметки, залу — только слайд. Бесплатно, Mac и Windows.">
+  <title>CueDeck, программа для показа презентаций на мероприятиях</title>
+  <meta name="description" content="Бесплатная программа оператора презентаций на живых мероприятиях: превью и TAKE, суфлёр, таймеры, трансляция на YouTube, VK и Telegram. Mac и Windows.">
+  <meta property="og:title" content="CueDeck, программа для показа презентаций на мероприятиях">
+  <meta property="og:description" content="Следующего спикера готовишь в превью, жмёшь TAKE, и он уходит в зал. Бесплатно, Mac и Windows.">
   <meta property="og:url" content="https://azat.life/cuedeck/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://azat.life/assets/cuedeck/og.jpg">
   <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:image:height" content="600">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101014'/%3E%3Ccircle cx='32' cy='30' r='13' fill='%23f2a33c'/%3E%3Crect x='14' y='48' width='36' height='5' rx='2.5' fill='%23f2a33c'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,8 +39,8 @@
       <p class="cd-hero__kicker">Бесплатно · Mac и Windows</p>
       <h1>CueDeck</h1>
       <p class="cd-hero__lead">
-        Инструмент оператора презентаций на живых мероприятиях.
-        Все спикеры в одной очереди, зал видит только слайд.
+        Я сделал её для себя: на конференции у каждого спикера свой файл, а показывать их надо с одного места.
+        Следующего готовишь в превью, жмёшь TAKE, и он уходит в зал.
       </p>
 
       <div class="cd-downloads" id="downloads">
@@ -62,93 +62,152 @@
       </div>
 
       <p class="cd-meta">
-        <span class="cd-meta__free">Полностью бесплатно</span>,
-        без регистрации и без ограничений. <span id="release-meta">Исходники открыты.</span>
+        <span class="cd-meta__free">Бесплатно</span>,
+        без регистрации. <span id="release-meta">Исходники открыты.</span>
       </p>
+
+      <figure class="cd-figure cd-figure--hero">
+        <img class="cd-shot" src="../assets/cuedeck/take.gif" width="1200" height="750"
+             alt="Окно оператора: превью следующего спикера уходит в эфир по кнопке TAKE">
+        <figcaption>Следующего спикера готовишь в превью, жмёшь TAKE, и он уходит в зал.</figcaption>
+      </figure>
+      <p class="cd-note">Интерфейс на скриншотах английский. Русский выбирается при первом запуске.</p>
     </section>
 
-    <!-- ============ ТРИ ОКНА ============ -->
+    <!-- ============ ТРИ ЭКРАНА ============ -->
     <section class="cd-section" id="windows">
-      <h2>Три окна вместо одного экрана</h2>
+      <h2>Три экрана, один оператор</h2>
       <p class="cd-section__intro">
-        Обычная смотрелка показывает одно и то же и вам, и залу. Здесь у каждого
-        своё окно: оператор видит служебное, спикер — своё, зал — только слайд.
+        Обычная смотрелка показывает одно и то же и тебе, и залу. Здесь у каждого экрана своя картинка,
+        потому что нужна им разная.
       </p>
+
+      <figure class="cd-figure">
+        <img class="cd-shot" src="../assets/cuedeck/screens.webp" width="1789" height="834" loading="lazy"
+             data-zoom data-caption="Ноутбук оператора, суфлёр спикера и экран зала"
+             alt="Ноутбук оператора, суфлёр спикера и экран зала рядом">
+      </figure>
 
       <div class="cd-windows">
         <article class="cd-window">
-          <img class="cd-window__shot" src="../assets/cuedeck/operator-small.webp" data-full="../assets/cuedeck/operator.webp"
-               alt="Окно оператора: текущий и следующий слайд, плейлист, таймер" loading="lazy">
           <h3>Оператор</h3>
-          <p>Текущий слайд и следующий, плейлист спикеров, таймер, заметки и монитор того, что реально уходит в зал.</p>
+          <p>Твой ноутбук. Плейлист спикеров, превью и эфир рядом, таймер, заметки и кнопка TAKE. Видно и что сейчас в зале, и что пойдёт дальше.</p>
         </article>
         <article class="cd-window">
-          <img class="cd-window__shot" src="../assets/cuedeck/speaker-small.webp" data-full="../assets/cuedeck/speaker.webp"
-               alt="Окно суфлёра: слайд спикера, таймер выступления, сообщения" loading="lazy">
           <h3>Суфлёр</h3>
-          <p>Спикеру — его слайд, следующий, таймер выступления и сообщения от оператора. Оборачиваться на экран не нужно.</p>
+          <p>Монитор спикера: его слайд, следующий, твои заметки, таймер и сообщения от оператора. Оборачиваться на экран зала не нужно.</p>
         </article>
         <article class="cd-window">
-          <img class="cd-window__shot" src="../assets/cuedeck/audience-small.webp" data-full="../assets/cuedeck/audience.webp"
-               alt="Окно зала: слайд во весь экран без интерфейса" loading="lazy">
           <h3>Зал</h3>
-          <p>Только слайд во весь экран. Ни курсора, ни панелей, ни рабочего стола, ни alt-tab между файлами.</p>
+          <p>Проектор или LED. Только слайд во весь экран, без курсора, панелей и рабочего стола.</p>
         </article>
+      </div>
+    </section>
+
+    <!-- ============ СУФЛЁР ============ -->
+    <section class="cd-section" id="prompter">
+      <h2>Суфлёр, который спикер правда читает</h2>
+      <p class="cd-section__intro">
+        Текущий и следующий слайд, твои заметки в реальном времени. Таймер желтеет и краснеет к концу.
+        Или весь экран отдаётся таймеру, под отдельный монитор у сцены.
+        Таймер и сообщение спикеру ставятся мышкой куда угодно.
+      </p>
+      <div class="cd-pair">
+        <img class="cd-shot" src="../assets/cuedeck/prompter.webp" width="1600" height="900" loading="lazy"
+             data-zoom data-caption="Суфлёр: слайд, следующий, заметки, таймер"
+             alt="Суфлёр: текущий слайд, следующий, заметки и таймер">
+        <img class="cd-shot" src="../assets/cuedeck/prompter-timer.webp" width="1200" height="675" loading="lazy"
+             data-zoom data-caption="Суфлёр в режиме «только таймер»"
+             alt="Суфлёр в режиме «только таймер»">
+      </div>
+    </section>
+
+    <!-- ============ ЭФИР И УПРАВЛЕНИЕ ============ -->
+    <section class="cd-section" id="onair">
+      <h2>Эфир и управление</h2>
+
+      <div class="cd-split">
+        <div>
+          <h3>Трансляция без OBS</h3>
+          <p>Кнопка STREAM отправляет картинку и звук зала на YouTube, VK и Telegram, до пяти площадок разом. Площадку можно включить или отключить прямо в эфире. Статистика показывает, где проблема: в компьютере, в сети или на площадке.</p>
+        </div>
+        <img class="cd-shot" src="../assets/cuedeck/stream.webp" width="1200" height="703" loading="lazy"
+             data-zoom data-caption="Окно трансляции: YouTube, VK и Telegram"
+             alt="Окно трансляции с площадками YouTube, VK и Telegram">
+      </div>
+
+      <div class="cd-split">
+        <div>
+          <h3>Выходы OMT для vMix и OBS</h3>
+          <p>Таймер на прозрачном фоне, зал со звуком и суфлёр уходят в сеть источниками OMT, это открытая замена NDI. vMix 29 и новее видит их сам, для OBS нужен плагин OMT. Таймер ложится поверх картинки без ключа.</p>
+          <p>Ролики лучше гнать по проводу: по Wi-Fi у нас доходило 11 кадров из 30. Живой vMix 29 мы пока не проверяли, проверяли OBS.</p>
+        </div>
+      </div>
+
+      <div class="cd-split">
+        <div>
+          <h3>Stream Deck и Companion</h3>
+          <p>Есть готовая страница для Bitfocus Companion: живой таймер, TAKE с именем спикера, спикеры подсвечены зелёным в превью и красным в эфире. Для всего остального есть HTTP и OSC.</p>
+        </div>
+        <img class="cd-shot" src="../assets/cuedeck/streamdeck.webp" width="784" height="474" loading="lazy"
+             data-zoom data-caption="Кнопки CueDeck на Stream Deck через Companion"
+             alt="Кнопки CueDeck на Stream Deck через Companion">
       </div>
     </section>
 
     <!-- ============ ВОЗМОЖНОСТИ ============ -->
     <section class="cd-section" id="features">
-      <h2>Что умеет</h2>
+      <h2>Что ещё умеет</h2>
       <p class="cd-section__intro">
-        Всё, что делалось под живые прогоны, а не под демонстрацию возможностей.
+        Всё это появилось на живых прогонах, а не ради длинного списка.
       </p>
 
       <div class="cd-features">
         <article class="cd-feature">
           <h3>Плейлист спикеров</h3>
-          <p>Все выступления в одной очереди. Файл кидается перетаскиванием, порядок меняется мышкой. Флешка за две минуты до выхода — просто ещё одна строка.</p>
+          <p>Все выступления в одной очереди. Файл кидается перетаскиванием, порядок меняется мышкой. Флешка за две минуты до выхода просто ещё одна строка.</p>
         </article>
         <article class="cd-feature">
           <h3>Любые форматы</h3>
-          <p>PDF, PowerPoint и Keynote, изображения, видео. Разные форматы лежат в одной очереди и открываются одинаково.</p>
+          <p>PDF, PowerPoint, Keynote, картинки, видео. Лежат в одной очереди и открываются одинаково. PowerPoint и Keynote идут через LibreOffice, эффекты исчезновения и переходы пока не играют.</p>
         </article>
         <article class="cd-feature">
           <h3>Видео внутри презентации</h3>
-          <p>Ролик, вшитый в слайд PowerPoint, играет поверх слайда. Анимации «по клику» разворачиваются в шаги и листаются кликером.</p>
+          <p>Ролик, вшитый в слайд PowerPoint, играет на своём месте. Анимации «по клику» разворачиваются в шаги, и кликер листает их как в оригинале.</p>
         </article>
         <article class="cd-feature">
           <h3>Таймеры</h3>
-          <p>Обратный отсчёт, секундомер или часы. Пресеты по правой кнопке, размер и угол на суфлёре настраиваются. Зал таймер не видит.</p>
+          <p>Обратный отсчёт, секундомер или часы. Пресеты и ±1 минута на лету, тиканье и гонг. Зал таймер не видит.</p>
         </article>
         <article class="cd-feature">
-          <h3>Связь со спикером</h3>
-          <p>Шесть готовых сообщений на суфлёр в одно нажатие: «две минуты», «закругляйтесь». Плюс заметки к выступлению.</p>
+          <h3>Заметки и сообщения</h3>
+          <p>Заметки идут в суфлёр сразу, а заметки докладчика из PowerPoint подставляются сами. Сообщение спикеру: «Заканчивайте», «Ближе к микрофону» или свой текст.</p>
         </article>
         <article class="cd-feature">
           <h3>Живой вход</h3>
-          <p>Картинка с HDMI-капчера, камеры или айфона по Continuity — как обычный элемент плейлиста. Устройство удерживается, чтобы не моргало при переключении.</p>
+          <p>Ноутбук гостя через USB-капчер HDMI встаёт в плейлист как обычный файл.</p>
         </article>
         <article class="cd-feature">
           <h3>Предпрослушка</h3>
           <p>Отдельный выход в наушники: послушать принесённый ролик до того, как он уйдёт в зал. Индикаторы уровня по эфиру и превью.</p>
         </article>
         <article class="cd-feature">
-          <h3>Заставка и затемнение</h3>
-          <p>Ключевой визуал между выступлениями одной кнопкой — вместо чёрного экрана и вместо рабочего стола.</p>
+          <h3>Заставка</h3>
+          <p>Кнопка B включает картинку или видео-заставку в зале, пока меняешь файлы. Вместо чёрного экрана и рабочего стола.</p>
         </article>
         <article class="cd-feature">
-          <h3>Проекты под флешку</h3>
-          <p>Плейлист сохраняется файлом проекта. «Собрать проект в папку» кладёт рядом все материалы — папка переезжает между машинами целиком.</p>
+          <h3>Профили и проекты</h3>
+          <p>Настройки под знакомый зал сохраняются профилем. Проект переезжает на другой компьютер, а пропавшие файлы видны при открытии, не в эфире.</p>
         </article>
       </div>
     </section>
 
     <!-- ============ ОБЗОР ============ -->
     <section class="cd-section" id="video">
-      <h2>Обзор</h2>
+      <h2>Видеообзор</h2>
       <p class="cd-section__intro">
-        Подробный разбор всех окон и настроек — как это работает на прогоне.
+        Сорок минут про окна и настройки. Он записан на версии 0.4.1, с тех пор добавилось многое,
+        но основа та же.
       </p>
       <!-- Не встроенный проигрыватель, а обложка со своего сервера: YouTube
            в России открывается не у всех, и iframe оставлял пустую рамку. -->
@@ -158,7 +217,7 @@
         <span class="cd-video__play" aria-hidden="true"></span>
       </a>
       <p class="cd-video__note">
-        Откроется на YouTube — 40 минут разбора.
+        Откроется на YouTube.
         <a href="https://www.youtube.com/watch?v=Vi5BDG_WoRg" target="_blank" rel="noopener">Ссылка на ролик</a>
       </p>
     </section>
@@ -169,17 +228,28 @@
       <div class="cd-req">
         <div class="cd-req__item">
           <h3>macOS</h3>
-          <p>Отдельные сборки для Apple Silicon и Intel. Программа подписана ad-hoc — при первом запуске откройте её через правую кнопку → «Открыть».</p>
+          <p>Отдельные сборки для Apple Silicon и Intel. Приложение без подписи, поэтому при первом запуске: правая кнопка, «Открыть», ещё раз «Открыть». Если пишет «приложение повреждено», в терминале <code>xattr -cr /Applications/CueDeck.app</code>.</p>
         </div>
         <div class="cd-req__item">
           <h3>Windows</h3>
-          <p>64-битная Windows 10 или 11. Архив распаковывается в любую папку, установка не нужна.</p>
+          <p>64-битная Windows 10 или 11. Архив распаковывается в любую папку, установка не нужна. SmartScreen предупредит: «Подробнее», потом «Выполнить в любом случае». Не запускается? <a href="https://github.com/ttpa3dhuk/CueDeck/blob/main/docs/windows.ru.md" target="_blank" rel="noopener">Windows по шагам</a>.</p>
         </div>
         <div class="cd-req__item">
           <h3>Для PowerPoint и Keynote</h3>
-          <p>Нужен установленный LibreOffice — через него конвертируются PPTX, PPT, ODP и KEY. Для PDF, картинок и видео он не требуется.</p>
+          <p>Нужен LibreOffice: через него конвертируются PPTX, PPT, ODP и KEY. PDF, картинки и видео работают без него.</p>
         </div>
       </div>
+    </section>
+
+    <!-- ============ ЧЕГО НЕТ ============ -->
+    <section class="cd-section" id="limits">
+      <h2>Что пока не работает</h2>
+      <ul class="cd-list">
+        <li>ProRes и DNxHD не играют. Перекодируй в MP4 (H.264 + AAC), например в HandBrake.</li>
+        <li>HEVC на Windows работает только с установленным HEVC Video Extensions. На Mac обычно да.</li>
+        <li>Blackmagic DeckLink и UltraStudio камерой не видны, у них свой драйвер. USB-капчеры (Cam Link, AVMatrix, ATEM Mini) и веб-камеры работают.</li>
+        <li>OMT по Wi-Fi тянет плохо, а живой vMix 29 я пока не проверял.</li>
+      </ul>
     </section>
 
   </main>
@@ -193,9 +263,12 @@
       <a href="/">Об авторе</a>
     </div>
     <p>
-      Программу пишет Азат Хусаенов — технический директор мероприятий.
-      Она выросла из собственных прогонов, поэтому пожелания с площадки приветствуются.
-      Лицензия MIT.
+      Программу пишу я, Азат Хусаенов, технический директор мероприятий. Она выросла из моих прогонов,
+      поэтому пожелания с площадки приветствуются. Лицензия MIT.
+    </p>
+    <p>
+      CueDeck бесплатный и делается в свободное время. Если выручил на шоу, можно
+      <a href="https://pay.cloudtips.ru/p/b79fa042" target="_blank" rel="noopener">кинуть на кофе</a>.
     </p>
   </footer>
 
@@ -211,7 +284,7 @@
   <script>
     /* Кнопки скачивания ведут прямо на архивы последнего релиза.
        Имя файла содержит версию, поэтому ссылки берутся из GitHub API,
-       а не зашиваются руками. Не ответил — остаётся ссылка на страницу релизов. */
+       а не зашиваются руками. Не ответил, остаётся ссылка на страницу релизов. */
     (async () => {
       const REPO = 'ttpa3dhuk/CueDeck';
       const targets = [
@@ -245,7 +318,7 @@
           meta.textContent = `Версия ${rel.tag_name.replace(/^v/, '')} от ${when}. Исходники открыты.`;
         }
       } catch (e) {
-        /* сети нет или лимит API — кнопки ведут на страницу релизов */
+        /* сети нет или лимит API: кнопки ведут на страницу релизов */
       }
     })();
 
@@ -260,15 +333,12 @@
       let lastFocused = null;
       let index = 0;
 
-      // Собираем все скриншоты один раз — по ним и листаем.
+      // Собираем все скриншоты один раз, по ним и листаем.
       const shots = [];
-      document.querySelectorAll('.cd-window').forEach(card => {
-        const shot = card.querySelector('.cd-window__shot');
-        const title = card.querySelector('h3');
-        if (!shot || shot.tagName !== 'IMG') return;
+      document.querySelectorAll('img[data-zoom]').forEach(shot => {
         const i = shots.length;
         // В сетке лежит облегчённая картинка, по клику подгружаем полную из data-full.
-        shots.push({ src: shot.dataset.full || shot.src, alt: shot.alt, caption: title ? title.textContent : '' });
+        shots.push({ src: shot.dataset.full || shot.src, alt: shot.alt, caption: shot.dataset.caption || shot.alt });
         shot.addEventListener('click', () => open(i));
       });
 
@@ -280,7 +350,7 @@
         const s = shots[index];
         img.src = s.src;
         img.alt = s.alt;
-        cap.textContent = multiple ? `${s.caption} — ${index + 1} из ${shots.length}` : s.caption;
+        cap.textContent = multiple ? `${s.caption} (${index + 1} из ${shots.length})` : s.caption;
       }
 
       function open(i) {
@@ -299,7 +369,7 @@
         if (lastFocused) lastFocused.focus();
       }
 
-      // Клик по кнопкам не должен закрывать окно — оно закрывается кликом по фону.
+      // Клик по кнопкам не должен закрывать окно, оно закрывается кликом по фону.
       prevBtn.addEventListener('click', e => { e.stopPropagation(); show(index - 1); });
       nextBtn.addEventListener('click', e => { e.stopPropagation(); show(index + 1); });
       img.addEventListener('click', e => e.stopPropagation());
@@ -314,11 +384,11 @@
       });
     })();
 
-    /* Скриншота ещё нет — вместо битой картинки показываем аккуратную заглушку. */
-    document.querySelectorAll('.cd-window__shot').forEach(img => {
+    /* Скриншот не загрузился: вместо битой картинки показываем заглушку. */
+    document.querySelectorAll('img[data-zoom]').forEach(img => {
       img.addEventListener('error', () => {
         const box = document.createElement('div');
-        box.className = 'cd-window__shot cd-window__placeholder';
+        box.className = 'cd-shot cd-window__placeholder';
         box.textContent = 'Скриншот появится здесь';
         img.replaceWith(box);
       });

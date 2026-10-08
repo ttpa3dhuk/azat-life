@@ -98,23 +98,52 @@
 /* ---------- Три окна ---------- */
 
 .cd-windows {
+  margin-top: 8px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 22px;
 }
 
-.cd-window__shot {
+/* Скриншоты: общий вид, по клику открываются во весь экран */
+.cd-shot {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
+  height: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--bg-raised);
-  margin-bottom: 14px;
 }
 
-.cd-window__shot { cursor: zoom-in; }
+.cd-shot[data-zoom] { cursor: zoom-in; }
+
+.cd-figure { margin: 0 0 28px; }
+.cd-figure figcaption { margin-top: 10px; color: var(--text-dim); font-size: 14.5px; }
+.cd-figure--hero { margin-top: 40px; margin-bottom: 10px; }
+
+.cd-note { color: var(--text-dim); font-size: 13.5px; }
+
+.cd-pair {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+/* Текст и картинка рядом. Без картинки текст занимает всю ширину. */
+.cd-split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  align-items: center;
+  margin-top: 36px;
+}
+
+.cd-split h3 { font-size: 19px; margin-bottom: 8px; }
+.cd-split p { color: var(--text-dim); font-size: 15.5px; line-height: 1.6; max-width: 60ch; }
+.cd-split p + p { margin-top: 10px; }
+
+.cd-list { list-style: disc; color: var(--text-dim); padding-left: 22px; max-width: 70ch; }
+.cd-list li { margin-bottom: 8px; line-height: 1.55; }
 
 /* ---------- Просмотр скриншота во весь экран ---------- */
 
@@ -285,6 +314,8 @@
 .cd-req__item { padding: 18px 20px; border-left: 2px solid var(--accent); background: var(--bg-raised); border-radius: 0 var(--radius) var(--radius) 0; }
 .cd-req__item h3 { font-size: 16px; margin-bottom: 5px; }
 .cd-req__item p { color: var(--text-dim); font-size: 14.5px; }
+.cd-req__item code, .cd-footer code { font-size: 12.5px; background: var(--bg-card); padding: 1px 5px; border-radius: 5px; word-break: break-all; }
+.cd-req__item a { color: var(--accent); }
 
 /* ---------- Подвал ---------- */
 
@@ -298,6 +329,8 @@
 }
 
 .cd-footer__links { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 16px; }
+.cd-footer p + p { margin-top: 10px; }
+.cd-footer p a { color: var(--accent); }
 
 @media (max-width: 600px) {
   .cd-hero { padding-top: 48px; }
