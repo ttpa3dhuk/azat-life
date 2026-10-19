@@ -27,6 +27,7 @@
       <a href="#full">WING</a>
       <a href="#compact">Compact</a>
       <a href="#rack">Rack</a>
+      <a href="#dante">Dante</a>
       <a class="nav__minor" href="#howto">Как обновить</a>
     </nav>
   </header>
@@ -199,13 +200,63 @@
       </ul>
     </section>
 
+    <section class="section" id="dante">
+      <h2>WING-DANTE</h2>
+      <p class="section__intro">
+        Прошивки для Dante-модуля в WING. Начиная с прошивки пульта 3.0.6,
+        для внутреннего модуля и внешней карты расширения нужны свои файлы.
+        После переноса модуля из одного слота в другой его тоже нужно обновить.
+      </p>
+      <div class="warn">
+        <p><strong>Перед скачиванием проверьте две вещи:</strong> какой у вас модуль,
+          Brooklyn II (BK2) или Brooklyn 3 (BK3), и где он установлен,
+          внутри пульта или во внешнем слоте. Эти четыре файла не взаимозаменяемы.</p>
+      </div>
+      <ul class="fw fw--dante">
+        <li class="fw__row">
+          <span class="fw__ver">BK3 · внешняя карта</span>
+          <span class="fw__date">4.2.9.4</span>
+          <span class="fw__size">7,4 МБ</span>
+          <a class="fw__get" href="files/wing-dante64_B_ext_BK3_4.2.9.4.zip">Скачать</a>
+        </li>
+        <li class="fw__row">
+          <span class="fw__ver">BK3 · внутри пульта</span>
+          <span class="fw__date">4.2.9.4</span>
+          <span class="fw__size">7,4 МБ</span>
+          <a class="fw__get" href="files/wing64x64_B_int_BK3_4.2.9.4.zip">Скачать</a>
+        </li>
+        <li class="fw__row">
+          <span class="fw__ver">BK2 · внешняя карта</span>
+          <span class="fw__date">4.2.8.2</span>
+          <span class="fw__size">3,1 МБ</span>
+          <a class="fw__get" href="files/wing-dante64_B_ext_BK2_4.2.8.2.zip">Скачать</a>
+        </li>
+        <li class="fw__row">
+          <span class="fw__ver">BK2 · внутри пульта</span>
+          <span class="fw__date">4.2.8.2</span>
+          <span class="fw__size">3,1 МБ</span>
+          <a class="fw__get" href="files/wing64x64_B_int_BK2_4.2.8.2.zip">Скачать</a>
+        </li>
+      </ul>
+    </section>
+
     <section class="section section--contact" id="howto">
       <h2>Как обновить</h2>
+      <h3>Пульт WING</h3>
       <p class="fw__how">
         Распакуйте архив, положите файл <code>.wingfw</code> в корень пустой флешки,
         отформатированной в FAT32. Вставьте её в пульт, зайдите в <em>Setup → Global → Update</em>,
         выберите файл и дождитесь окончания. В большинстве архивов рядом с прошивкой лежит PDF
         с заметками о выпуске — что починили и что изменилось.
+      </p>
+      <h3>Dante-модуль</h3>
+      <p class="fw__how">
+        Здесь другой порядок: распакуйте нужный ZIP и импортируйте файл <code>.dnt</code>
+        в Dante Updater. При обновлении звук прервётся. Пошаговая инструкция Behringer
+        отдельно объясняет настройку Dante Updater и перезагрузку модуля.
+      </p>
+      <p class="fw__how">
+        <a class="btn" href="files/BE_0606-ADL_WING-DANTE_Update-Instructions_2025-07-23.pdf">Скачать инструкцию WING-DANTE (PDF)</a>
       </p>
       <p class="section__intro">
         Вопросы по WING — пишите, разберём.
@@ -220,8 +271,9 @@
 
   <footer class="footer">
     <p>
-      Архив собран <a href="https://technicallychurch.com/behringer-wing-firmware-downloads/" target="_blank" rel="noopener">Technically&nbsp;Church</a>,
-      файлы выпущены Behringer и распространяются производителем бесплатно.
+      Прошивки пультов собраны при помощи <a href="https://technicallychurch.com/behringer-wing-firmware-downloads/" target="_blank" rel="noopener">Technically&nbsp;Church</a>.
+      Файлы WING-DANTE и инструкция взяты с <a href="https://www.behringer.com/en/products/0606-ADL" target="_blank" rel="noopener">сайта Behringer</a>.
+      Файлы выпущены Behringer и распространяются производителем бесплатно.
       Здесь они продублированы, чтобы старые версии не пропадали.
     </p>
     <p>© 2026 Азат Хусаенов · <a href="/">azat.life</a></p>

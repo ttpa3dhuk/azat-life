@@ -634,6 +634,10 @@ ul, ol {
   border-color: var(--text-dim);
 }
 
+.fw--dante .fw__row {
+  grid-template-columns: minmax(190px, 1fr) 90px 90px 130px;
+}
+
 .fw__ver {
   font-size: 19px;
   font-weight: 800;
@@ -687,6 +691,11 @@ ul, ol {
   margin-bottom: 26px;
 }
 
+.section--contact h3 {
+  font-size: 21px;
+  margin-bottom: 14px;
+}
+
 .fw__how code {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -710,6 +719,10 @@ ul, ol {
     padding: 18px 20px;
   }
 
+  .fw--dante .fw__row {
+    grid-template-columns: 1fr auto;
+  }
+
   .fw__ver {
     grid-column: 1;
   }
@@ -728,5 +741,12 @@ ul, ol {
     grid-column: 2;
     grid-row: 1 / span 2;
     align-self: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav__links a[href="#compact"],
+  .nav__links a[href="#rack"] {
+    display: none;
   }
 }
