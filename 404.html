@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#090b0e">
+  <title>404. Страница не нашлась · azat.life</title>
+  <meta name="description" content="Сцена есть. Страницы нет. Включим свет и найдём дорогу обратно.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101014'/%3E%3Ccircle cx='32' cy='30' r='13' fill='%23f2a33c'/%3E%3Crect x='14' y='48' width='36' height='5' rx='2.5' fill='%23f2a33c'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/404.css">
+  <script src="/assets/404.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="azat.life, главная страница">azat<span>.</span>life</a>
+      <span class="topbar__cue"><span class="topbar__dot" aria-hidden="true"></span> CUE 404 / SIGNAL LOST</span>
+    </header>
+
+    <main class="main">
+      <section class="story" aria-labelledby="error-title">
+        <p class="eyebrow"><span class="eyebrow__line" aria-hidden="true"></span> Техническая пауза</p>
+        <h1 id="error-title">Сцена есть.<br><span>Страницы нет.</span></h1>
+        <p class="story__lead">Похоже, этот адрес пустой. На площадке я бы проверил сигнал. Здесь можно сразу идти на главную.</p>
+
+        <div class="story__actions">
+          <a class="button button--primary" href="/">На главную <span aria-hidden="true">↗</span></a>
+          <button class="button button--light" id="light-switch" type="button" aria-pressed="false">
+            <span class="button__icon" aria-hidden="true">◉</span> Дать свет
+          </button>
+        </div>
+
+        <p class="story__aside" id="light-message" aria-live="polite">Можно нажать «Дать свет». Страницу это не вернёт, зато будет красиво.</p>
+      </section>
+
+      <div class="stage" id="stage" aria-hidden="true">
+        <div class="stage__wash"></div>
+        <div class="stage__truss">
+          <span class="stage__truss-line"></span>
+          <span class="stage__fixture stage__fixture--one"></span>
+          <span class="stage__fixture stage__fixture--two"></span>
+          <span class="stage__fixture stage__fixture--three"></span>
+          <span class="stage__fixture stage__fixture--four"></span>
+        </div>
+        <div class="stage__beam stage__beam--one"></div>
+        <div class="stage__beam stage__beam--two"></div>
+        <div class="stage__beam stage__beam--three"></div>
+        <div class="stage__beam stage__beam--four"></div>
+        <div class="stage__halo"></div>
+        <div class="stage__number" data-text="404">404</div>
+        <div class="stage__floor"></div>
+        <div class="stage__floor-light"></div>
+        <div class="stage__caption"><span class="stage__caption-dot"></span> <span id="stage-status">NO INPUT</span> <span>·</span> AZAT.LIFE</div>
+        <div class="stage__side-label">STANDBY / 00:04:04</div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>AZAT.LIFE <span class="footer__slash">/</span> 404</span>
+      <a href="/#rnd">Посмотреть разработки <span aria-hidden="true">↗</span></a>
+    </footer>
+  </div>
+</body>
+</html>
