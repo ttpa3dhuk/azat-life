@@ -23,18 +23,28 @@ function draw(){
  const i=s.shot,[name,pose,quality]=shots[i];$("#num").textContent="Кадр "+(i+1)+" из "+shots.length;$("#count").textContent="Готово "+s.taken.filter(Boolean).length+" из "+shots.length;
  $("#shotname").textContent=name;$("#pose").textContent=pose;$("#quality").textContent=quality;
  $("#camera").textContent="Свет от окна, задняя камера 1× на уровне глаз, расстояние 1,5–2 м. Включите таймер и отключите ретушь.";
- $(".single").src=imagePath(i);$(".single").alt="Пример кадра: "+name;$("#taken").checked=s.taken[i];
- $$(".steps button").forEach((b,j)=>{b.className=(s.taken[j]?"done ":"")+(i===j?"chosen":"");b.setAttribute("aria-label",shots[j][0]+(s.taken[j]?", готов":""));b.setAttribute("aria-pressed",i===j)});
- $("#next").textContent=i===shots.length-1?"Выбрать реакции":"Дальше";$$(".chips button").forEach(b=>b.setAttribute("aria-pressed",s.selected.includes(b.textContent)));
+ $(".single").src=imagePath(i);$(".single").alt="Пример кадра: "+name;
+ $$(".steps button[data-shot]").forEach((b,j)=>{b.className=(s.taken[j]?"done ":"")+(i===j?"chosen":"");b.setAttribute("aria-label",shots[j][0]+(s.taken[j]?", готов":""));b.setAttribute("aria-pressed",i===j)});
+ $("#next").textContent=i===shots.length-1?"Фото готово · к реакциям":"Фото готово · дальше";$$(".chips button").forEach(b=>b.setAttribute("aria-pressed",s.selected.includes(b.textContent)));
  $("#summary").value=brief();$("#copyhint").textContent="";
 }
 stages.forEach((name,i)=>$("nav").append(btn(name,()=>go(i))));
 for(const el of $$(".switch")){const text=document.createElement("small");text.textContent="Пример";el.append(text);for(const [key,name] of [["man","Парень"],["woman","Девушка"]]){const b=btn(name,()=>{s.person=key;save();draw()});b.dataset.person=key;el.append(b)}}
-shots.forEach((v,i)=>$(".steps").append(btn(String(i+1),()=>shot(i))));
+shots.forEach((v,i)=>{
+ const button=btn(String(i+1),()=>shot(i));
+ button.dataset.shot=i;
+ $(".steps").append(button);
+});
 options.forEach(([em,name])=>{const b=btn(em,()=>{s.selected=s.selected.includes(em)?s.selected.filter(x=>x!==em):[...s.selected,em];save();draw()});b.setAttribute("aria-label",name);b.title=name;$(".chips").append(b)});
 $$("[data-go]").forEach(b=>b.onclick=()=>go(+b.dataset.go));
-$("#taken").onchange=e=>{s.taken[s.shot]=e.target.checked;save();draw()};$("#prev").onclick=()=>s.shot===0?go(0):shot(s.shot-1);
-$("#next").onclick=()=>s.shot===shots.length-1?go(2):shot(s.shot+1);
+$("#prev").onclick=()=>s.shot===0?go(0):shot(s.shot-1);
+function finishShot(ready){
+ s.taken[s.shot]=ready;
+ if(s.shot===shots.length-1) go(2);
+ else shot(s.shot+1);
+}
+$("#next").onclick=()=>finishShot(true);
+$("#later").onclick=()=>finishShot(false);
 for(const id of ["custom","details"]){$("#"+id).value=s[id];$("#"+id).oninput=e=>{s[id]=e.target.value;save()}}
 $("#copy").onclick=async()=>{const field=$("#summary");field.focus();field.select();$("#copyhint").textContent="Текст выделен. Если браузер спросит, разрешите копирование или скопируйте вручную.";try{await navigator.clipboard.writeText($("#summary").value);$("#copyhint").textContent="Скопировано. Вставьте текст в чат и приложите фото."}catch{const v=$("#summary");v.focus();v.select();let ok=false;try{ok=document.execCommand("copy")}catch{}$("#copyhint").textContent=ok?"Скопировано. Вставьте текст в чат.":"Текст выделен. Нажмите «Скопировать» в меню телефона."}};
 draw();
