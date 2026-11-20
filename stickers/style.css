@@ -1,0 +1,55 @@
+:root{color-scheme:light;--ink:#1d2025;--paper:#faf9f6;--muted:#535962;--line:#d6d7d4;--yellow:#ffcc52;font:100%/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}
+body,figure{margin:0}
+header,main{max-width:1120px;margin:auto;padding-inline:clamp(18px,4vw,55px)}
+header,.row,.switch,.steps,.chips,nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+header{height:76px;justify-content:space-between;border-bottom:1px solid var(--line)}
+a{color:inherit;text-underline-offset:3px}
+.brand{font-weight:850;font-size:1.55rem;letter-spacing:-.075em;text-decoration:none}
+.brand span,.intro h1 span{color:#bd6715}
+.pack{font-size:.9rem;font-weight:600}
+main{padding-bottom:48px}
+.hero,.prep,.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,65px)}
+.hero{padding:48px 0 42px;align-items:center}
+h1,.display{font-weight:800;letter-spacing:-.065em;line-height:1;margin:0 0 20px}
+h1{font-size:clamp(3.6rem,6.7vw,5.5rem)}
+h2,h3{line-height:1.15;letter-spacing:-.035em;margin:0 0 12px}
+h2{font-size:1.65rem}h3{font-size:1.25rem}
+p{margin:0 0 16px}
+.intro p{max-width:440px;font-size:1.1rem}
+button,.primary,label,input,textarea{font:inherit}
+button,.primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 16px;border:1px solid #b9bfbd;border-radius:12px;background:white;color:inherit;cursor:pointer;text-decoration:none}
+.primary{font-weight:700;background:var(--ink);color:white;border-color:var(--ink)}
+button:hover,.primary:hover{box-shadow:0 0 0 2px #a38d6780}
+:focus-visible{outline:3px solid #9d5115;outline-offset:3px}
+.art{min-width:0;background:var(--yellow);color:#262018;border-radius:22px;overflow:hidden;align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;background-image:radial-gradient(#4c392031 1px,transparent 1px);background-size:12px 12px}
+.portraits{display:flex;align-items:end;justify-content:center;flex:1;min-height:110px;isolation:isolate;padding:20px 2% 0;overflow:hidden}
+.portraits img{display:block;width:38%;height:auto;filter:drop-shadow(0 4px 2px #33281838);transform-origin:bottom}
+.portraits img:first-child{transform:rotate(-9deg) translateY(3%);margin-right:-10%}
+.portraits img:nth-child(2){width:43%;z-index:1}
+.portraits img:last-child{transform:rotate(8deg) translateY(3%);margin-left:-10%}
+.art figcaption{background:#20242a;color:white;display:flex;align-items:center;justify-content:space-between;padding:13px 18px;gap:8px}.art figcaption span{color:#e1e4e8;font-size:.87rem}
+.prep{border-top:1px solid var(--line);padding-top:28px;scroll-margin-top:16px}
+.examples{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.examples img,.single{display:block;width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover}
+.examples figcaption{font-size:.88rem;margin:4px 0;font-weight:650}
+.switch{margin-top:10px}.switch small{margin-right:4px}
+.switch button,.steps button{min-height:40px;padding:6px 12px;font-size:.92rem}
+button[aria-pressed=true],button[aria-current=step],.steps button.chosen{background:#ffdf8d;border-color:#a07830}
+nav{border-block:1px solid var(--line);margin:20px 0 26px;padding:10px 0}
+nav button{border-color:transparent;background:transparent;font-size:.92rem}
+.work{max-width:920px;margin:auto}
+.display{font-size:clamp(2.4rem,5vw,4.4rem)}
+.status,small,#copyhint{color:var(--muted);font-size:.92rem}
+.status{margin-bottom:12px}
+.single{max-width:380px}
+aside{background:#efefea;padding:22px;border-radius:16px;margin-bottom:18px}
+aside p:last-child{margin-bottom:0}
+label{display:block;margin:15px 0 6px;font-weight:650}
+.check{display:flex;align-items:center;gap:8px}.check input{width:20px;height:20px;accent-color:#714e14}
+.steps{margin:12px 0 20px}.steps .done{border-bottom:3px solid #497242}
+.chips{gap:6px;margin:12px 0}.chips button{font-size:1.5rem;padding:6px 11px}
+textarea,input[type=text]{display:block;width:100%;background:white;color:inherit;border:1px solid #adaea9;border-radius:10px;padding:10px;resize:vertical}
+#copy{margin:12px 0}
+[hidden]{display:none!important}
+@media(max-width:700px){header{height:58px}.hero,.prep,.split{grid-template-columns:minmax(0,1fr);gap:20px}.hero{padding:26px 0}.art{max-width:480px;width:100%}.portraits{height:clamp(110px,34vw,195px);flex:none}.portraits img{height:92%;width:auto}.portraits img:nth-child(2){height:106%;width:auto}.intro h1 br{display:none}.intro h1 br:after{content:' '}.intro h1{font-size:clamp(2.5rem,7.9vw,3.6rem)}.prep{padding-top:22px}nav{gap:1px}nav button{padding:8px 5px;font-size:.84rem;flex:1}.single{width:min(100%,315px)}}
