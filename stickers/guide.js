@@ -53,12 +53,12 @@ function draw(){
  $("nav").hidden=s.stage===0;
  $$(".switch button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.person===s.person));
  $$("nav button").forEach((b,i)=>{if(i===s.stage)b.setAttribute("aria-current","step");else b.removeAttribute("aria-current")});
- const i=s.shot,[name,pose,quality]=shots[i];$("#num").textContent="Кадр "+(i+1)+" из "+shots.length;$("#count").textContent="Готово "+files.filter(Boolean).length+" из "+shots.length;
+ const i=s.shot,[name,pose,quality]=shots[i];$("#num").textContent=i===0?"Основное фото":"Дополнительный ракурс";$("#count").textContent="Прикреплено фото: "+files.filter(Boolean).length;
  $("#shotname").textContent=name;$("#pose").textContent=pose;$("#quality").textContent=quality;
  $("#camera").textContent="Свет от окна, задняя камера 1× на уровне глаз, расстояние 1,5–2 м. Включите таймер и отключите ретушь.";
  $(".single").src=imagePath(i);$(".single").alt="Пример кадра: "+name;
  $$(".steps button[data-shot]").forEach((b,j)=>{b.className=(files[j]?"done ":"")+(i===j?"chosen":"");b.setAttribute("aria-label",shots[j][0]+(files[j]?", готов":""));b.setAttribute("aria-pressed",i===j)});
- $("#next").textContent=i===shots.length-1?"Фото готово · к реакциям":"Фото готово · дальше";$$(".chips button").forEach(b=>b.setAttribute("aria-pressed",s.selected.includes(b.textContent)));
+ $("#next").textContent=files[i]?"Перейти к реакциям":"Выбрать фото";$$(".chips button").forEach(b=>b.setAttribute("aria-pressed",s.selected.includes(b.textContent)));
  $("#file-status").textContent=photoMessages[i] || files[i]?.name || "Файл пока не выбран";
  $("#shot-file").value="";
  const labels=allReactions();
@@ -70,7 +70,7 @@ function draw(){
  document.querySelectorAll("[name=pack]").forEach(r=>r.checked=Number(r.value)===s.pack);
  $$(".chips button[title]").forEach(b=>b.disabled=labels.length>=s.pack&&!s.selected.includes(b.textContent));
  roles.forEach((r,j)=>{
-  $("#name-"+r).textContent=photoMessages[j] || files[j]?.name || "Фото нужно прикрепить";
+  $("#name-"+r).textContent=photoMessages[j] || files[j]?.name || (j===0?"Обязательное фото":"По желанию");
   $("#pick-"+r).textContent=files[j]?"Заменить фото":"Выбрать фото";
   const photo=$("#preview-"+r);photo.hidden=!files[j];
   photo.onerror=()=>{photo.hidden=true};
@@ -136,7 +136,7 @@ $("#add-custom").onclick=()=>{if(!$("#custom").value.trim()){$("#custom-hint").t
 $("#custom").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();addCustom()}};
 $$("[data-go]").forEach(b=>b.onclick=()=>{if(+b.dataset.go===3){if(!addCustom())return;if(allReactions().length!==s.pack){$("#custom-hint").textContent="Выберите ровно "+s.pack+" реакций.";return}}go(+b.dataset.go)});
 $("#prev").onclick=()=>s.shot===0?go(0):shot(s.shot-1);
-function nextShot(){if(s.shot===2)go(2);else shot(s.shot+1)}
+function nextShot(){go(2)}
 $("#shot-file").onchange=e=>{const f=e.target.files[0];e.target.value="";selectPhoto(s.shot,f)};
 $("#next").onclick=()=>{if(!files[s.shot]){$("#shot-file").click();return}nextShot()};
 $("#later").onclick=nextShot;
@@ -150,14 +150,14 @@ $("#submit").onclick=async()=>{
  const contact=$("#telegram-contact");
  if(!contact.value.trim()){contact.focus();contact.reportValidity();message.textContent="Укажите ваш Telegram.";return}
  if(labels.length!==s.pack){message.textContent="Выберите ровно "+s.pack+" реакций.";return}
- if(files.some(f=>!f)){message.textContent="Прикрепите все три ракурса.";return}
+ if(!files[0]){message.textContent="Прикрепите фото анфас.";return}
  const extra=Array.from($("#expression").files);if(extra.length>3){message.textContent="Можно приложить до трёх фото мимики.";return}
- if([...files,...extra].reduce((a,f)=>a+f.size,0)>=38*1024*1024){message.textContent="Фото вместе должны занимать меньше 38 МБ.";return}
+ if([...files.filter(Boolean),...extra].reduce((a,f)=>a+f.size,0)>=38*1024*1024){message.textContent="Фото вместе должны занимать меньше 38 МБ.";return}
  button.disabled=true;message.textContent="Загружаем фотографии…";
  try{
   uploadKey=uploadKey || sessionStorage.getItem(keyName) || token();sessionStorage.setItem(keyName,uploadKey);
   const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("reactionDescriptions",JSON.stringify(Object.fromEntries(labels.map(label=>[label,sceneFor(label)]))));form.set("details",s.details);
-  roles.forEach((r,i)=>form.set(r,files[i]));
+  roles.forEach((r,i)=>{if(files[i])form.set(r,files[i])});
   const response=await stickerRequest("orders",{method:"POST",headers:{Authorization:"Bearer "+uploadKey},body:form});
   const body=await response.json();
   if(!response.ok)throw Error(body.error || "Не удалось загрузить заказ.");

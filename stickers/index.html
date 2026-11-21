@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Свой стикерпак по фото · azat.life</title>
-<meta name="description" content="Персональные стикеры для Telegram по трём фото. Выберите 5 или 12 реакций и утвердите свой портрет.">
+<meta name="description" content="Персональные стикеры для Telegram по одному фото. Выберите 5 или 12 реакций и утвердите свой портрет.">
 <link rel="canonical" href="https://azat.life/stickers/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Свой стикерпак по фото · azat.life">
-<meta property="og:description" content="Персональные стикеры для Telegram по трём фото. Выберите 5 или 12 реакций и утвердите свой портрет. Сейчас бесплатно.">
+<meta property="og:description" content="Персональные стикеры для Telegram по одному фото. Выберите 5 или 12 реакций и утвердите свой портрет. Сейчас бесплатно.">
 <meta property="og:url" content="https://azat.life/stickers/">
 <meta property="og:image" content="https://azat.life/stickers/img/preview.jpg">
 <meta property="og:image:width" content="1200">
@@ -17,14 +17,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="./style.css?v=selectel1">
 <script defer src="./pilot.js?v=landing2"></script>
-<script defer src="./guide.js?v=scenes1"></script>
+<script defer src="./guide.js?v=onephoto1"></script>
 </head>
 <body>
 <header><a class="brand" href="https://azat.life/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
 <main>
 <section id="setup">
 <div class="hero"><div class="intro"><h1>Свой <br>стикерпак<span>.</span></h1>
-<p>Загрузите три фото и посмотрите, как получится ваш портрет. Когда он вам понравится, нарисуем ваши реакции и соберём набор для Telegram. Сейчас оба набора бесплатные.</p>
+<p>Загрузите одно фото анфас и посмотрите, как получится ваш портрет. Когда он вам понравится, нарисуем ваши реакции и соберём набор для Telegram. Сейчас оба набора бесплатные.</p>
 <fieldset class="packages"><legend>Сколько стикеров?</legend><label><input type="radio" name="pack" value="5"> 5 штук</label><label><input type="radio" name="pack" value="12" checked> 12 штук</label></fieldset>
 <button class="primary" type="button" id="start">Сделать стикерпак</button></div>
 <div class="pack-examples" role="group" aria-label="Примеры стикеров">
@@ -44,7 +44,7 @@
 <p id="resume-order" hidden><a id="resume-link">Открыть свой заказ</a></p>
 <nav hidden aria-label="Этапы заказа"></nav>
 <section id="shoot" class="work" hidden><div class="status"><span id="num"></span> · <span id="count"></span></div><h2 id="shotname" class="display" tabindex="-1"></h2>
-<p id="shoot-help">Прикрепите снимок по примеру. Подойдёт и фото из галереи.</p>
+<p id="shoot-help">Для начала хватит одного снимка анфас. Подойдёт фото из галереи.</p>
 <div class="split"><div><img class="single" src="./img/man-0.jpg" alt="Анфас"><div class="switch"></div></div><div><h3>Как встать</h3><p id="pose"></p><h3>Проверьте в кадре</h3><p id="quality"></p><small id="camera"></small><label class="pick" for="shot-file">Выбрать из галереи</label> <label class="pick" for="camera-file">Сделать фото</label><input class="visually-hidden" type="file" accept="image/*" capture="user" id="camera-file"><input class="visually-hidden" id="shot-file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"><p id="file-status" role="status"></p><div class="shot-actions">
 <button id="next" class="primary">Фото готово</button>
 <button id="later">Сниму позже</button>
@@ -57,7 +57,7 @@
 <div id="scenes"></div>
 <label for="details">По каким деталям вы узнаёте себя?</label><textarea id="details" rows="3" maxlength="700" placeholder="Например, форма глаз, светлая чёлка, любимая футболка"></textarea></div>
 <div><aside><h3>Если хочется поймать вашу мимику</h3><p>Покажите две-три реакции так, как вы это делаете в жизни. Можно приложить до трёх дополнительных снимков.</p><p>Для жеста руками добавьте фото по пояс. Для стикера в полный рост снимитесь в выбранной позе целиком, до обуви.</p><label for="expression">Фото мимики или жестов</label><input id="expression" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,.heic"></aside><button class="primary" data-go="3">Перейти к загрузке</button></div></div></section>
-<section id="send" class="work" hidden><h2 class="display" tabindex="-1">Загрузить заказ</h2><div class="split"><div><h3>Три фотографии</h3><p>JPEG, PNG, WebP или HEIC. До 38 МБ на весь заказ. Здесь можно заменить любой кадр.</p><div id="uploads"></div></div>
+<section id="send" class="work" hidden><h2 class="display" tabindex="-1">Загрузить заказ</h2><div class="split"><div><h3>Фото для портрета</h3><p>JPEG, PNG, WebP или HEIC. До 38 МБ на весь заказ. Нужен только анфас. Оба поворота можно добавить по желанию.</p><div id="uploads"></div></div>
 <div><aside><h3>Ваши реакции</h3><p id="chosen"></p><p id="bill" class="price"></p><p>Сначала вы посмотрите портрет. В пакет входят до трёх версий портрета и один круг правок по выбранным стикерам. </p></aside>
 <p>Фотографии сохраняются на сервере заказа и передаются в генератор изображений OpenAI для отрисовки. Ссылку на заказ сохраните для себя.</p>
 <label for="pack-title">Название стикерпака в Telegram</label><input id="pack-title" type="text" maxlength="64" placeholder="Например, Азат на связи">
