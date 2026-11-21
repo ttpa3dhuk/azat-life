@@ -36,6 +36,7 @@ function draw(){
  $("#file-status").textContent=photoMessages[i] || files[i]?.name || "Файл пока не выбран";
  $("#shot-file").value="";
  const labels=allReactions();
+ $("#fill-pack").disabled=labels.length>=s.pack;
  $("#price").textContent=$("#bill").textContent="Выбрано "+labels.length+" из "+s.pack+" · бесплатно";
  $("#chosen").textContent=labels.join(" · ") || "Пока ничего не выбрано";
  $("#custom-list").replaceChildren(...s.extra.map(v=>btn(v+" ×",()=>{s.extra=s.extra.filter(x=>x!==v);save();draw()})));
@@ -79,6 +80,18 @@ shots.forEach((v,i)=>{
  $("#uploads").append(label,preview,note,pick,input);
 });
 options.forEach(([em,name])=>{const b=btn(em,()=>{s.selected=s.selected.includes(em)?s.selected.filter(x=>x!==em):[...s.selected,em];save();draw()});b.setAttribute("aria-label",name);b.title=name;$(".chips").append(b)});
+$("#fill-pack").onclick=()=>{
+ if(!addCustom())return;
+ const chosen=new Set(allReactions());
+ for(const [emoji] of options){
+  if(chosen.size>=s.pack)break;
+  if(chosen.has(emoji))continue;
+  chosen.add(emoji);
+  s.selected.push(emoji);
+ }
+ save();draw();
+ $("#custom-hint").textContent="Набор заполнен. Любую реакцию можно заменить.";
+};
 function addCustom(){
  const value=$("#custom").value.trim();if(!value){return true;}
  const segments=Intl.Segmenter?new Intl.Segmenter("ru",{granularity:"grapheme"}):null;

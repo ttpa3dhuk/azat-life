@@ -17,14 +17,14 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="./style.css?v=selectel1">
 <script defer src="./pilot.js?v=landing2"></script>
-<script defer src="./guide.js?v=landing2"></script>
+<script defer src="./guide.js?v=reactions1"></script>
 </head>
 <body>
 <header><a class="brand" href="https://azat.life/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
 <main>
 <section id="setup">
 <div class="hero"><div class="intro"><h1>Свой <br>стикерпак<span>.</span></h1>
-<p>Как вы улыбаетесь, дурачитесь или показываете «люблю»? Соберём ваши реакции в стикерпак для Telegram. Загрузите три фото и выберите 5 или 12 реакций. Сейчас оба набора бесплатные.</p>
+<p>Загрузите три фото и посмотрите, как получится ваш портрет. Когда он вам понравится, нарисуем ваши реакции и соберём набор для Telegram. Сейчас оба набора бесплатные.</p>
 <fieldset class="packages"><legend>Сколько стикеров?</legend><label><input type="radio" name="pack" value="5"> 5 штук</label><label><input type="radio" name="pack" value="12" checked> 12 штук</label></fieldset>
 <button class="primary" type="button" id="start">Сделать стикерпак</button></div>
 <div class="pack-examples" role="group" aria-label="Примеры стикеров">
@@ -51,6 +51,7 @@
 </div>
 <div class="steps" aria-label="Выбор кадра"><button id="prev">Назад</button></div></div></div></section>
 <section id="feel" class="work" hidden><h2 class="display" tabindex="-1">Какие реакции ваши?</h2><div class="split"><div><p>Выберите эмодзи, которые чаще всего отправляете друзьям. Каждая выбранная реакция станет отдельным стикером.</p><div class="chips" aria-label="Реакции"></div>
+<button id="fill-pack" type="button">Дополнить набор</button>
 <label for="custom">Своя реакция</label><input id="custom" type="text" maxlength="90" placeholder="Например, «ну давай»">
 <button id="add-custom" type="button">Добавить реакцию</button><small id="custom-hint" role="status"></small><div id="custom-list" class="chips"></div><p class="price" id="price" aria-live="polite"></p>
 <label for="details">По каким деталям вы узнаёте себя?</label><textarea id="details" rows="3" maxlength="700" placeholder="Например, форма глаз, светлая чёлка, любимая футболка"></textarea></div>
