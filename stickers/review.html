@@ -2,9 +2,11 @@
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><title>Мой стикерпак · Согласование</title>
 <link rel="stylesheet" href="./style.css?v=waiting15"><script defer src="./pilot.js?v=1"></script>
-<script defer src="./review.js?v=delivery1"></script></head>
+<script defer src="./review.js?v=title1"></script></head>
 <body><header><a class="brand" href="./">azat<span>.</span>life</a><span>Мой стикерпак</span></header>
 <main class="review"><h1 id="title">Открываем заказ…</h1><p id="price" class="price"></p>
+<form id="title-form" hidden><label for="pack-title">Название стикерпака в Telegram</label><input id="pack-title" type="text" maxlength="64" placeholder="Например, Азат на связи">
+<button type="submit">Сохранить название</button><p role="status" id="title-status"></p></form>
 <form id="contact-form" hidden><label for="telegram-contact">Ваш Telegram</label><input id="telegram-contact" type="text" placeholder="@username" maxlength="160" autocapitalize="none" autocorrect="off" spellcheck="false" required aria-describedby="telegram-help">
 <p id="telegram-help">Укажите ник с @ или без неё либо ссылку t.me/username. По этому контакту мы сможем прислать ссылку на готовый набор.</p>
 <button type="submit">Сохранить Telegram</button><p id="contact-status" role="status"></p></form>

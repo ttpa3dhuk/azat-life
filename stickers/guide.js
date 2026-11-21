@@ -116,7 +116,7 @@ $("#submit").onclick=async()=>{
  button.disabled=true;message.textContent="Загружаем фотографии…";
  try{
   uploadKey=uploadKey || sessionStorage.getItem(keyName) || token();sessionStorage.setItem(keyName,uploadKey);
-  const form=new FormData();form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("details",s.details);
+  const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("details",s.details);
   roles.forEach((r,i)=>form.set(r,files[i]));
   const response=await stickerRequest("orders",{method:"POST",headers:{Authorization:"Bearer "+uploadKey},body:form});
   const body=await response.json();

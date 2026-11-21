@@ -9,6 +9,23 @@ async function api(path,options={}){
  const r=await stickerRequest(path,{...options,headers:{...headers,...options.headers}});
  if(!r.ok){let msg="Соединение прервалось. Попробуйте ещё раз.";try{msg=(await r.json()).error||msg}catch{}throw Error(msg)}return r;
 }
+const titleForm=document.querySelector("#title-form");
+const titleInput=document.querySelector("#pack-title");
+titleInput.required=true;
+titleForm.onsubmit=async event=>{
+ event.preventDefault();
+ if(busy)return;
+ const notice=document.querySelector("#title-status");
+ busy=true;titleForm.inert=true;notice.textContent="Сохраняем…";
+ try{
+  const result=await (await api("title",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:titleInput.value.trim()})})).json();
+  titleInput.value=result.title;
+  notice.textContent=order.telegramUrl?"Название обновлено в Telegram.":"Название сохранено.";
+  order.packTitle=result.title;
+  if(result.revision===order.revision+1)order.revision=result.revision;
+ }catch(e){notice.textContent=e.message}
+ finally{busy=false;titleForm.inert=false;refresh()}
+};
 const contactForm=document.querySelector("#contact-form");
 const contactInput=document.querySelector("#telegram-contact");
 const contactStatus=document.querySelector("#contact-status");
@@ -165,6 +182,7 @@ function waitingPanel(o){
  content.append(hint,toggle);panel.append(content);area.append(panel);
 }
 function render(o){
+ if(titleForm.hidden){titleInput.value=o.packTitle||"Мои реакции · azat.life";titleForm.hidden=false}
  if(contactForm.hidden){
   savedContact=o.telegramUsername||"";contactInput.value=savedContact?"@"+savedContact:"";contactForm.hidden=false;
   if(savedContact)contactStatus.textContent="Сохранено: @"+savedContact;
