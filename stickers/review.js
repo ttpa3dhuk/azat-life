@@ -81,6 +81,22 @@ function choose(){
  });
  area.append(button("Сохранить выбранные версии",()=>decision("finish",{choices}),true));
 }
+async function publishTelegram(){
+ if(busy)return;
+ busy=true;area.inert=true;statusLine.textContent="Публикуем набор в Telegram…";
+ try{render(await (await api("publish-telegram",{method:"POST"})).json());statusLine.textContent="Набор опубликован."}
+ catch(e){statusLine.textContent=e.message}
+ finally{busy=false;area.inert=false}
+}
+function finished(o){
+ if(o.telegramUrl){
+  const link=el("a","Добавить стикерпак в Telegram","primary");link.href=o.telegramUrl;area.append(link);
+ }else if(o.telegramAvailable){
+  area.append(el("p","После публикации любой человек со ссылкой сможет добавить набор."),
+   button("Опубликовать набор в Telegram",publishTelegram,true));
+ }
+ area.append(button("Скачать выбранные стикеры",download));quote();
+}
 async function download(){
  try{const blob=await (await api("pack")).blob();const a=el("a");a.href=URL.createObjectURL(blob);a.download="stickers.zip";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
  catch(e){statusLine.textContent=e.message}
@@ -119,7 +135,7 @@ function render(o){
  if(o.stage==="portrait_review")portraits();
  else if(o.stage==="series_review")series();
  else if(o.stage==="choice")choose();
- else if(o.stage==="done"){area.append(button("Скачать выбранные стикеры",download,true));quote()}
+ else if(o.stage==="done")finished(o);
  else {
   waitingPanel(o);
   area.append(el("p","Ваши реакции: "+o.items.map(i=>i.label).join(" · ")));
