@@ -125,7 +125,18 @@ function waitingPanel(o){
   toggle.setAttribute("aria-pressed",String(autoRefresh));
   hint.textContent=autoRefresh?"Проверяем каждые 15 секунд, пока страница открыта.":"Автообновление выключено. Можно проверить вручную.";
  }
- sync();content.append(el("strong",message),hint,toggle);panel.append(content);area.append(panel);
+ sync();content.append(el("strong",message));
+ if(o.progress){
+  const progress=o.progress;
+  const count=el("p","Готово "+progress.done+" из "+progress.total);
+  const bar=el("progress");bar.max=progress.total;bar.value=progress.done;bar.setAttribute("aria-label",count.textContent);
+  content.append(count,bar);
+  if(!paused){
+   content.append(el("p",progress.active?"Сейчас рисуем: "+progress.active:"Ждём следующую реакцию в очереди."));
+   content.append(el("p",progress.minutes?"Осталось примерно "+progress.minutes+" мин по темпу этого заказа.":"Оценка времени появится после первых готовых рисунков."));
+  }
+ }
+ content.append(hint,toggle);panel.append(content);area.append(panel);
 }
 function render(o){
  order=o;renderId++;urls.forEach(URL.revokeObjectURL);urls=[];area.replaceChildren();
@@ -148,7 +159,7 @@ async function refresh(){
  try{
   const o=await (await api("order")).json();
   if(busy||previousRender!==renderId)return;
-  if(!order||o.revision!==order.revision||o.stage!==order.stage||o.paused!==order.paused||o.quotaWait!==order.quotaWait)render(o);
+  if(!order||o.revision!==order.revision||o.stage!==order.stage||JSON.stringify(o.progress)!==JSON.stringify(order.progress)||o.paused!==order.paused||o.quotaWait!==order.quotaWait)render(o);
   statusLine.textContent="";
  }catch(e){statusLine.textContent=e.message}
  finally{refreshing=false}
