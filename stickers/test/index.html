@@ -7,10 +7,22 @@
 <title>Бесплатный тест стикерпака · azat.life</title>
 <style>body{max-width:34rem;margin:15vh auto;padding:0 1.25rem;font:18px/1.5 system-ui;color:#252932;background:#faf9f6}</style>
 <h1>Тест стикерпака</h1><p id="info">Откройте личную ссылку для теста целиком.</p>
+<p><a hidden id="direct">Открыть форму</a> <button hidden id="retry">Проверить соединение</button></p>
 <script>
-if (/^#[a-zA-Z0-9_-]{43}$/.test(location.hash)) {
- document.querySelector('#info').textContent='Открываем бесплатный заказ…';
- location.replace('https://mini.tailce318c.ts.net:10000/enter'+location.hash);
+const info=document.querySelector('#info'),direct=document.querySelector('#direct'),retry=document.querySelector('#retry');
+const entry='https://mini.tailce318c.ts.net/stickers/enter';
+async function connect(){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),6500);
+ retry.hidden=true;info.textContent='Проверяем соединение с формой…';
+ try{
+  await fetch(entry,{mode:'no-cors',credentials:'omit',cache:'no-store',signal:controller.signal});
+  info.textContent='Форма доступна. Если переход не сработал, нажмите «Открыть форму».';
+  location.replace(direct.href);
+ }catch{info.textContent='Не удалось соединиться с формой. Попробуйте открыть ссылку в Safari или Chrome либо сменить сеть.';retry.hidden=false}
+ finally{clearTimeout(timer)}
+}
+if(/^#[a-zA-Z0-9_-]{43}$/.test(location.hash)){
+ direct.href=entry+location.hash;direct.hidden=false;retry.onclick=connect;connect();
 }
 </script>
 </html>
