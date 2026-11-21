@@ -5,12 +5,38 @@ const shots=[
 ["Три четверти влево","Повернитесь примерно на 45°, нос направлен к левому краю готового снимка.","Дальний глаз виден. Край волос у виска отделяется от фона."],
 ["Три четверти вправо","Повторите в другую сторону. Нос направлен к правому краю снимка.","Видны оба глаза и линия дальней щеки."]];
 const options=[["🔥","Огонь"],["😂","Смех"],["🫶","От души"],["🤪","Дурачусь"],["😉","Подмигиваю"],["😎","Круто"],["😔","Грустно"],["💪","Справимся"],["🙏","Прошу"],["😘","Целую"],["🤷‍♂️","Кто знает"],["😊","Улыбаюсь"],["😬","Упс"],["🤦","Фейспалм"],["😍","Влюблённость"],["😮","Удивление"]];
+const sceneDefaults=new Map([
+ ["🔥","Улыбаюсь и показываю большой палец."],["👍","Киваю и показываю большой палец."],
+ ["😂","Запрокидываю голову и смеюсь до слёз."],["🫶","Складываю ладони сердечком."],
+ ["🤪","Подмигиваю и показываю язык."],["😉","Подмигиваю с хитрой улыбкой."],
+ ["😎","Смотрю поверх солнечных очков."],["😔","Опускаю взгляд и чуть сутулюсь."],
+ ["💪","Сгибаю руку и показываю бицепс."],["🙏","Складываю ладони и просительно смотрю в глаза."],
+ ["😘","Посылаю воздушный поцелуй."],["🤷‍♂️","Пожимаю плечами и развожу руки."],
+ ["😊","Тепло улыбаюсь, слегка наклонив голову."],["😬","Неловко улыбаюсь, стиснув зубы."],
+ ["🤦","Прикрываю глаза ладонью."],["😍","С восторгом прижимаю руки к груди."],
+ ["😮","Широко открываю глаза и приподнимаю брови."]
+]);
+function sceneFor(label){
+ return Object.hasOwn(s.scenes,label)?s.scenes[label]:(sceneDefaults.get(label)??label);
+}
+function showScenes(labels){
+ const fields=labels.map(label=>{
+  const field=document.createElement("label");
+  field.textContent=label+" · описание рисунка";
+  const input=document.createElement("textarea");
+  input.rows=2;input.maxLength=250;input.value=sceneFor(label);
+  input.oninput=()=>{s.scenes[label]=input.value;save()};
+  field.append(input);return field;
+ });
+ $("#scenes").replaceChildren(...fields);
+}
 const stages=["Подготовка","Кадры","Реакции","Отправка"], ids=["setup","shoot","feel","send"];
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
 const draftKey="stickers.intake.v2";
 const defaults={person:"man",stage:0,shot:0,selected:[],extra:[],custom:"",details:""};
 let s={...defaults};
 try { const saved=JSON.parse(localStorage.getItem(draftKey)); if(saved && ids[saved.stage] && shots[saved.shot] && examples[saved.person] && Array.isArray(saved.selected) && Array.isArray(saved.extra)) s={...defaults,...saved}; }catch{}
+s.scenes=Object.assign(Object.create(null),s.scenes);
 const rates={5:750,12:1490};
 if(!rates[s.pack])s.pack=12;
 const files=[null,null,null];
@@ -36,6 +62,7 @@ function draw(){
  $("#file-status").textContent=photoMessages[i] || files[i]?.name || "Файл пока не выбран";
  $("#shot-file").value="";
  const labels=allReactions();
+ showScenes(labels);
  $("#fill-pack").disabled=labels.length>=s.pack;
  $("#price").textContent=$("#bill").textContent="Выбрано "+labels.length+" из "+s.pack+" · бесплатно";
  $("#chosen").textContent=labels.join(" · ") || "Пока ничего не выбрано";
@@ -129,7 +156,7 @@ $("#submit").onclick=async()=>{
  button.disabled=true;message.textContent="Загружаем фотографии…";
  try{
   uploadKey=uploadKey || sessionStorage.getItem(keyName) || token();sessionStorage.setItem(keyName,uploadKey);
-  const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("details",s.details);
+  const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("reactionDescriptions",JSON.stringify(Object.fromEntries(labels.map(label=>[label,sceneFor(label)]))));form.set("details",s.details);
   roles.forEach((r,i)=>form.set(r,files[i]));
   const response=await stickerRequest("orders",{method:"POST",headers:{Authorization:"Bearer "+uploadKey},body:form});
   const body=await response.json();
