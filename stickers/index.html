@@ -13,39 +13,58 @@
 <meta property="og:image" content="https://azat.life/stickers/img/preview.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Три стикера Азата из набора AzatLife">
+<meta property="og:image:alt" content="Реакции из двух персональных стикерпаков">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/stickers/style.css?v=2">
-<script defer src="/stickers/guide.js?v=2"></script>
+<link rel="stylesheet" href="./style.css?v=selectel1">
+<script defer src="./pilot.js?v=1"></script>
+<script defer src="./guide.js?v=selectel1"></script>
 </head>
 <body>
-<header><a class="brand" href="/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
+<header><a class="brand" href="https://azat.life/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
 <main>
 <section id="setup">
 <div class="hero"><div class="intro"><h1>Свой <br>стикерпак<span>.</span></h1>
-<p>Каким бывает ваше «ну пожалуйста»? А улыбка, когда шутка удалась? Соберём эти реакции в Telegram. Для начала нужны три ваших портрета.</p>
-<a class="primary" href="#photos" id="start">Начать съёмку</a></div>
-<figure class="art"><div class="portraits"><img src="/stickers/img/01-fire.webp" alt="Азат показывает большой палец"><img src="/stickers/img/03-heart.webp" alt="Сердце из ладоней"><img src="/stickers/img/04-goofy.webp" alt="Подмигивает и показывает язык"></div><figcaption><strong>AzatLife</strong><span>Из моего стикерпака</span></figcaption></figure></div>
+<p>Как вы улыбаетесь, дурачитесь или показываете «люблю»? Соберём ваши реакции в стикерпак для Telegram. Для заказа понадобятся три фото. Пилот бесплатный. Выберите размер пакета.</p>
+<fieldset class="packages"><legend>Сколько стикеров?</legend><label><input type="radio" name="pack" value="5"> 5 штук</label><label><input type="radio" name="pack" value="12" checked> 12 штук</label></fieldset>
+<dialog id="person-dialog"><h2>Какие примеры показать?</h2><button data-example="man">Парень</button> <button data-example="woman">Девушка</button></dialog>
+<a class="primary" href="#photos" id="start">Заказать пакет</a><p id="invite-note" hidden>Для бесплатного заказа откройте личную ссылку-приглашение. <a href="./guide/">Посмотреть инструкцию по съёмке</a></p></div>
+<div class="pack-examples" role="group" aria-label="Примеры стикеров">
+<div class="pack-example pack-strip palette-1">
+<img width="512" height="512" src="./img/01-fire.webp" alt="Большой палец вверх с огоньком">
+<img width="512" height="512" src="./img/04-goofy.webp" alt="Подмигивает и показывает язык">
+<img width="512" height="512" src="./img/03-heart.webp" alt="Сердце из ладоней">
+</div>
+<div id="private-examples" hidden class="pack-example pack-strip palette-2">
+<img width="512" height="512" data-example-file="07-cool.webp" alt="Взгляд поверх солнечных очков">
+<img width="512" height="512" data-example-file="11-heart.webp" alt="Обнимает красное сердце">
+<img width="512" height="512" data-example-file="02-laugh.webp" alt="Смеётся до слёз">
+</div>
+</div></div>
 <div class="prep" id="photos"><div><h2>Как поставить телефон</h2><p>Встаньте лицом к окну. Поставьте заднюю камеру на уровне глаз в 1,5–2 метрах от себя. Выберите 1× и включите таймер. Отключите ретушь и размытие фона.</p>
 <p>Оставьте в кадре макушку и плечи. Очки и причёска пусть будут такими, как вы обычно их носите. Если в галерее уже есть подходящие свежие снимки, берите их.</p></div>
-<div><h2>Какие нужны кадры</h2><div class="examples">
-<figure><img data-thumb="0" src="/stickers/img/man-0.jpg" alt="Лицо прямо"><figcaption>Анфас</figcaption></figure>
-<figure><img data-thumb="1" src="/stickers/img/man-1.jpg" alt="Нос к левому краю фото"><figcaption>¾ влево</figcaption></figure>
-<figure><img data-thumb="2" src="/stickers/img/man-2.jpg" alt="Нос к правому краю фото"><figcaption>¾ вправо</figcaption></figure></div><div class="switch"></div></div></div>
-<noscript><p>Пришлите три резких портрета файлами в чат, где получили эту ссылку. Укажите любимые эмодзи. Если нужен стикер с жестом, добавьте фото по пояс с руками, для стикера в полный рост пригодится фото в выбранной позе до обуви.</p></noscript>
+<div><h2>Какие нужны кадры</h2><p>Анфас и два поворота в три четверти. На каждом снимке должны быть видны оба глаза.</p><details class="shot-examples"><summary>Посмотреть примеры ракурсов</summary><div class="examples">
+<figure><img data-thumb="0" src="./img/man-0.jpg" alt="Лицо прямо"><figcaption>Анфас</figcaption></figure>
+<figure><img data-thumb="1" src="./img/man-1.jpg" alt="Нос к левому краю фото"><figcaption>¾ влево</figcaption></figure>
+<figure><img data-thumb="2" src="./img/man-2.jpg" alt="Нос к правому краю фото"><figcaption>¾ вправо</figcaption></figure></div><div class="switch"></div></details></div></div>
+<noscript><p>Для загрузки и согласования включите JavaScript.</p></noscript>
 </section>
+<p id="resume-order" hidden><a id="resume-link">Открыть свой заказ</a></p>
 <nav hidden aria-label="Этапы заказа"></nav>
 <section id="shoot" class="work" hidden><div class="status"><span id="num"></span> · <span id="count"></span></div><h2 id="shotname" class="display" tabindex="-1"></h2>
-<p id="shoot-help">Сделайте снимок по примеру. Если такой уже есть в телефоне, он тоже подойдёт. Затем нажмите «Фото готово».</p>
-<div class="split"><div><img class="single" src="/stickers/img/man-0.jpg" alt="Анфас"><div class="switch"></div></div><div><h3>Как встать</h3><p id="pose"></p><h3>Проверьте в кадре</h3><p id="quality"></p><small id="camera"></small><div class="shot-actions">
+<p id="shoot-help">Прикрепите снимок по примеру. Подойдёт и фото из галереи.</p>
+<div class="split"><div><img class="single" src="./img/man-0.jpg" alt="Анфас"><div class="switch"></div></div><div><h3>Как встать</h3><p id="pose"></p><h3>Проверьте в кадре</h3><p id="quality"></p><small id="camera"></small><label class="pick" for="shot-file">Выбрать из галереи</label> <label class="pick" for="camera-file">Сделать фото</label><input class="visually-hidden" type="file" accept="image/*" capture="user" id="camera-file"><input class="visually-hidden" id="shot-file" type="file" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif"><p id="file-status" role="status"></p><div class="shot-actions">
 <button id="next" class="primary">Фото готово</button>
 <button id="later">Сниму позже</button>
 </div>
 <div class="steps" aria-label="Выбор кадра"><button id="prev">Назад</button></div></div></div></section>
-<section id="feel" class="work" hidden><h2 class="display" tabindex="-1">Какие реакции ваши?</h2><div class="split"><div><p>Выберите эмодзи, которые чаще всего отправляете друзьям. Подойдёт и скриншот вкладки «Недавние».</p><div class="chips" aria-label="Реакции"></div>
-<label for="custom">Свои реакции</label><input id="custom" type="text" maxlength="220" placeholder="Например, «ну давай»">
+<section id="feel" class="work" hidden><h2 class="display" tabindex="-1">Какие реакции ваши?</h2><div class="split"><div><p>Выберите эмодзи, которые чаще всего отправляете друзьям. Каждая выбранная реакция станет отдельным стикером.</p><div class="chips" aria-label="Реакции"></div>
+<label for="custom">Своя реакция</label><input id="custom" type="text" maxlength="90" placeholder="Например, «ну давай»">
+<button id="add-custom" type="button">Добавить реакцию</button><small id="custom-hint" role="status"></small><div id="custom-list" class="chips"></div><p class="price" id="price" aria-live="polite"></p>
 <label for="details">По каким деталям вы узнаёте себя?</label><textarea id="details" rows="3" maxlength="700" placeholder="Например, форма глаз, светлая чёлка, любимая футболка"></textarea></div>
-<div><aside><h3>Если хочется поймать вашу мимику</h3><p>Покажите две-три реакции так, как вы это делаете в жизни. Подойдут снимки или короткое видео.</p><p>Для жеста руками добавьте фото по пояс. Для стикера в полный рост снимитесь в выбранной позе целиком, до обуви.</p></aside><button class="primary" data-go="3">Собрать сообщение</button></div></div></section>
-<section id="send" class="work" hidden><h2 class="display" tabindex="-1">Отправляем Азату</h2><div class="split"><div><label for="summary">Сообщение для Telegram</label><textarea id="summary" rows="8" readonly></textarea><button id="copy" class="primary">Скопировать сообщение</button><p id="copyhint" role="status"></p></div><div><h3>Приложите фотографии</h3><p>Вставьте текст в тот чат, где получили ссылку. Прикрепите оригиналы как файлы. Список в сообщении показывает, какие ракурсы уже готовы.</p><h3>Что дальше?</h3><p>Я посмотрю кадры и пришлю один портрет на согласование. Когда вы узнаете себя, перейдём к остальным реакциям.</p><button data-go="1">Вернуться к кадрам</button></div></div></section>
+<div><aside><h3>Если хочется поймать вашу мимику</h3><p>Покажите две-три реакции так, как вы это делаете в жизни. Можно приложить до трёх дополнительных снимков.</p><p>Для жеста руками добавьте фото по пояс. Для стикера в полный рост снимитесь в выбранной позе целиком, до обуви.</p><label for="expression">Фото мимики или жестов</label><input id="expression" type="file" multiple accept="image/jpeg,image/png,image/webp,image/heic,.heic"></aside><button class="primary" data-go="3">Перейти к загрузке</button></div></div></section>
+<section id="send" class="work" hidden><h2 class="display" tabindex="-1">Загрузить заказ</h2><div class="split"><div><h3>Три фотографии</h3><p>JPEG, PNG, WebP или HEIC. До 38 МБ на весь заказ. Здесь можно заменить любой кадр.</p><div id="uploads"></div></div>
+<div><aside><h3>Ваши реакции</h3><p id="chosen"></p><p id="bill" class="price"></p><p>Сначала вы посмотрите портрет. В пакет входят до трёх версий портрета и один круг правок по выбранным стикерам. </p></aside>
+<p>Фотографии сохраняются на сервере заказа и передаются в генератор изображений OpenAI для отрисовки. Ссылку на заказ сохраните для себя.</p>
+<button id="submit" class="primary">Загрузить фото и оформить заказ</button><p id="notice" role="status"></p><button data-go="2">Изменить реакции</button></div></div></section>
 </main>
 </body></html>

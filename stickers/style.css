@@ -22,13 +22,14 @@ button,.primary{display:inline-flex;align-items:center;justify-content:center;mi
 .primary{font-weight:700;background:var(--ink);color:white;border-color:var(--ink)}
 button:hover,.primary:hover{box-shadow:0 0 0 2px #a38d6780}
 :focus-visible{outline:3px solid #9d5115;outline-offset:3px}
-.art{min-width:0;background:var(--yellow);color:#262018;border-radius:22px;overflow:hidden;align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;background-image:radial-gradient(#4c392031 1px,transparent 1px);background-size:12px 12px}
-.portraits{display:flex;align-items:end;justify-content:center;flex:1;min-height:110px;isolation:isolate;padding:20px 2% 0;overflow:hidden}
-.portraits img{display:block;width:38%;height:auto;filter:drop-shadow(0 4px 2px #33281838);transform-origin:bottom}
-.portraits img:first-child{transform:rotate(-9deg) translateY(3%);margin-right:-10%}
-.portraits img:nth-child(2){width:43%;z-index:1}
-.portraits img:last-child{transform:rotate(8deg) translateY(3%);margin-left:-10%}
-.art figcaption{background:#20242a;color:white;display:flex;align-items:center;justify-content:space-between;padding:13px 18px;gap:8px}.art figcaption span{color:#e1e4e8;font-size:.87rem}
+.pack-examples{display:grid;gap:10px;min-width:0}
+.pack-example{border-radius:18px;padding:12px}
+.palette-1{background:#f6cd67}
+.palette-2{background:#e4d7ed}
+.pack-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:center;gap:6px}
+.pack-strip img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+.shot-examples summary{cursor:pointer;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.shot-examples[open] summary{margin-bottom:10px}
 .prep{border-top:1px solid var(--line);padding-top:28px;scroll-margin-top:16px}
 .examples{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .examples img,.single{display:block;width:100%;aspect-ratio:1;border-radius:12px;object-fit:cover}
@@ -56,3 +57,11 @@ textarea,input[type=text]{display:block;width:100%;background:white;color:inheri
 #copy{margin:12px 0}
 [hidden]{display:none!important}
 @media(max-width:700px){header{height:58px}.hero,.prep,.split{grid-template-columns:minmax(0,1fr);gap:20px}.hero{padding:26px 0}.art{max-width:480px;width:100%}.portraits{height:clamp(110px,34vw,195px);flex:none}.portraits img{height:92%;width:auto}.portraits img:nth-child(2){height:106%;width:auto}.intro h1 br{display:none}.intro h1 br:after{content:' '}.intro h1{font-size:clamp(2.5rem,7.9vw,3.6rem)}.prep{padding-top:22px}nav{gap:1px}nav button{padding:8px 5px;font-size:.84rem;flex:1}.single{width:min(100%,315px)}}
+#uploads input,#shot-file{display:block;margin:6px 0;max-width:100%}#uploads small{display:block}
+.price{font-weight:700;font-size:1.2rem;margin-top:16px}.review{max-width:960px;margin:30px auto}.review h1{font-size:clamp(2rem,6vw,3.5rem)}
+.review-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));margin:18px 0}
+.review-card{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;min-width:0}.review-card img{display:block;max-width:100%;width:180px;height:180px;object-fit:contain;background:#eceae7;border-radius:9px}
+.review-card label{display:block}.review label input{margin:0 8px 0 0}
+#activity,#notice,#file-status,#copy-status{min-height:1.5em;margin-top:8px}.review textarea{margin-bottom:12px}
+#order-area button,#order-tools button{margin:4px}.review header{padding:0}.review .price{margin:0 0 12px}
+.packages{margin:1rem 0;border:0;padding:0}.packages label,.pick{display:inline-block;margin:6px 6px 6px 0;padding:9px 12px;border:1px solid #a9adaa;border-radius:10px;cursor:pointer}.packages label:has(:checked){background:#ffdf8d}.visually-hidden{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}.pick:has(+input:focus-visible){outline:2px solid}.packages legend{font-weight:650}dialog{border:0;border-radius:18px;padding:24px}dialog::backdrop{background:#191c2080}#uploads img{border-radius:10px;object-fit:cover;height:80px}
