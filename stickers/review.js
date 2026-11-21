@@ -61,12 +61,12 @@ function series(){
   box.onchange=()=>{note.parentElement.hidden=!box.checked;if(box.checked)note.focus()};
   feedback.push({box,note});grid.append(card);
  });
- const submit=button("Утвердить весь набор",()=>{
+ const submit=button(order.telegramAvailable?"Утвердить и опубликовать в Telegram":"Утвердить весь набор",()=>{
   const empty=feedback.find(f=>f.box.checked&&!f.note.value.trim());
   if(empty){statusLine.textContent="Напишите, что изменить в отмеченном стикере.";empty.note.focus();return}
-  decision("review_series",{notes:feedback.map(f=>f.box.checked?f.note.value:"")});
+  decision("review_series",{publishTelegram:!!order.telegramAvailable,notes:feedback.map(f=>f.box.checked?f.note.value:"")});
  },true);
- grid.onchange=()=>submit.textContent=feedback.some(f=>f.box.checked)?"Отправить все правки":"Утвердить весь набор";area.append(submit);
+ grid.onchange=()=>submit.textContent=feedback.some(f=>f.box.checked)?"Отправить все правки":(order.telegramAvailable?"Утвердить и опубликовать в Telegram":"Утвердить весь набор");area.append(submit);
 }
 function choose(){
  area.append(el("p","Для каждого исправленного стикера выберите исходный или новый рисунок."));
@@ -79,7 +79,7 @@ function choose(){
    radio.onchange=()=>choices[i]=v;card.append(radio,document.createTextNode(j?"Вариант "+(j+1):"Исходный вариант"),art(v,item.label));grid.append(card);
   });
  });
- area.append(button("Сохранить выбранные версии",()=>decision("finish",{choices}),true));
+ area.append(button(order.telegramAvailable?"Опубликовать выбранные версии в Telegram":"Сохранить выбранные версии",()=>decision("finish",{choices,publishTelegram:!!order.telegramAvailable}),true));
 }
 async function publishTelegram(){
  if(busy)return;
@@ -91,6 +91,8 @@ async function publishTelegram(){
 function finished(o){
  if(o.telegramUrl){
   const link=el("a","Добавить стикерпак в Telegram","primary");link.href=o.telegramUrl;area.append(link);
+ }else if(o.telegramPending){
+  area.append(el("p","Набор утверждён. Здесь появится ссылка, когда Telegram подтвердит публикацию."));
  }else if(o.telegramAvailable){
   area.append(el("p","После публикации любой человек со ссылкой сможет добавить набор."),
    button("Опубликовать набор в Telegram",publishTelegram,true));
@@ -172,7 +174,7 @@ document.querySelector("#copy-link").onclick=async()=>{
 };
 if(/^[a-f0-9]{64}$/.test(key)){
  function checkWaiting(){
-  if(autoRefresh&&!document.hidden&&(!order||order.stage.endsWith("_queue")||order.quote))refresh();
+  if(autoRefresh&&!document.hidden&&(!order||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
  }
  refresh();setInterval(checkWaiting,15000);
  document.addEventListener("visibilitychange",checkWaiting);
