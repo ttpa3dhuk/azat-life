@@ -49,4 +49,4 @@ for(const id of ["custom","details"]){$("#"+id).value=s[id];$("#"+id).oninput=e=
 $("#copy").onclick=async()=>{const field=$("#summary");field.focus();field.select();$("#copyhint").textContent="Текст выделен. Если браузер спросит, разрешите копирование или скопируйте вручную.";try{await navigator.clipboard.writeText($("#summary").value);$("#copyhint").textContent="Скопировано. Вставьте текст в чат и приложите фото."}catch{const v=$("#summary");v.focus();v.select();let ok=false;try{ok=document.execCommand("copy")}catch{}$("#copyhint").textContent=ok?"Скопировано. Вставьте текст в чат.":"Текст выделен. Нажмите «Скопировать» в меню телефона."}};
 draw();
 
-$("nav").hidden=false;$("#start").onclick=e=>{e.preventDefault();go(1)};
+$("nav").hidden=false;$("#start").onclick=e=>{e.preventDefault();s.shot=0;go(1)};

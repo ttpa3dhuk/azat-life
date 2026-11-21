@@ -126,7 +126,7 @@ $("#submit").onclick=async()=>{
 const previous=localStorage.getItem(recent);
 if(previous && /^review\.html#[a-f0-9]{64}$/.test(previous)){$("#resume-link").href=previous;$("#resume-order").hidden=false}
 $("nav").hidden=false;$("#start").onclick=e=>{e.preventDefault();$("#person-dialog").showModal()};
-$$("[data-example]").forEach(b=>b.onclick=()=>{s.person=b.dataset.example;$("#person-dialog").close();go(1)});
+$$("[data-example]").forEach(b=>b.onclick=()=>{s.person=b.dataset.example;s.shot=0;$("#person-dialog").close();go(1)});
 $$("[name=pack]").forEach(r=>r.onchange=()=>{s.pack=Number(r.value);save();draw()});
 $("#camera-file").onchange=$("#shot-file").onchange;draw();
 
