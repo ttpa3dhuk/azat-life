@@ -86,6 +86,31 @@ async function download(){
  catch(e){statusLine.textContent=e.message}
 }
 const titles={portrait_queue:"Портрет в очереди",portrait_review:"Узнаёте себя?",series_queue:"Готовим ваши реакции",series_review:"Посмотрите весь набор",changes_queue:"Правим отмеченные стикеры",choice:"Выберите версии",done:"Ваш стикерпак готов"};
+let autoRefresh=true, refreshing=false;
+function waitingPanel(o){
+ const panel=el("section","","waiting-panel");
+ const paused=o.quotaWait||o.paused;
+ const ring=el("span","","waiting-ring");ring.setAttribute("aria-hidden","true");
+ if(!paused)panel.append(ring);
+ const content=el("div");
+ let message;
+ if(o.quotaWait)message="Заказ сохранён. Ждём восстановления лимита отрисовки.";
+ else if(o.paused)message="Заказ сохранён. Отрисовка на паузе, оператор проверит очередь.";
+ else if(o.stage==="portrait_queue")message=o.portraits.length
+  ? "Правки получены. Здесь появится портрет № "+(o.portraits.length+1)+"."
+  : "Фото получены. Первый портрет появится здесь.";
+ else if(o.stage==="series_queue")message="Портрет № "+(o.portraits.indexOf(o.approved)+1)+" утверждён. Когда все стикеры будут готовы, здесь появится набор из "+o.items.length+" шт.";
+ else message="Правки получены. Здесь появятся исходные и новые версии для сравнения.";
+ const hint=el("p");const toggle=button("",()=>{
+  autoRefresh=!autoRefresh;sync();if(autoRefresh)refresh();
+ });
+ function sync(){
+  toggle.textContent=autoRefresh?"Выключить автообновление":"Включить автообновление";
+  toggle.setAttribute("aria-pressed",String(autoRefresh));
+  hint.textContent=autoRefresh?"Проверяем каждые 15 секунд, пока страница открыта.":"Автообновление выключено. Можно проверить вручную.";
+ }
+ sync();content.append(el("strong",message),hint,toggle);panel.append(content);area.append(panel);
+}
 function render(o){
  order=o;renderId++;urls.forEach(URL.revokeObjectURL);urls=[];area.replaceChildren();
  document.querySelector("#title").textContent=titles[o.stage];
@@ -96,16 +121,21 @@ function render(o){
  else if(o.stage==="choice")choose();
  else if(o.stage==="done"){area.append(button("Скачать выбранные стикеры",download,true));quote()}
  else {
-  const msg={portrait_queue:"Фотографии получены. Следующий портрет появится здесь. Версия "+(o.portraits.length+1)+" из "+(3+(o.paidPortraits||0))+".",
-   series_queue:"Портрет утверждён. Все выбранные реакции появятся здесь вместе.",
-   changes_queue:"После правок вы сможете сравнить версии и оставить ту, которая нравится."};
-  area.append(el("p",o.quotaWait?"Заказ сохранён. Очередь ждёт восстановления лимита отрисовки.":o.paused?"Заказ сохранён. Отрисовка приостановлена, оператор проверит очередь.":msg[o.stage]),el("p","Ваши реакции: "+o.items.map(i=>i.label).join(" · ")));
+  waitingPanel(o);
+  area.append(el("p","Ваши реакции: "+o.items.map(i=>i.label).join(" · ")));
  }
 }
 async function refresh(){
- if(busy)return;
- try{const o=await (await api("order")).json();if(!order||o.revision!==order.revision||o.paused!==order.paused||o.quotaWait!==order.quotaWait)render(o);statusLine.textContent=""}
- catch(e){statusLine.textContent=e.message}
+ if(busy||refreshing)return;
+ refreshing=true;
+ const previousRender=renderId;
+ try{
+  const o=await (await api("order")).json();
+  if(busy||previousRender!==renderId)return;
+  if(!order||o.revision!==order.revision||o.stage!==order.stage||o.paused!==order.paused||o.quotaWait!==order.quotaWait)render(o);
+  statusLine.textContent="";
+ }catch(e){statusLine.textContent=e.message}
+ finally{refreshing=false}
 }
 document.querySelector("#refresh").onclick=refresh;
 document.querySelector("#copy-link").onclick=async()=>{
@@ -114,5 +144,9 @@ document.querySelector("#copy-link").onclick=async()=>{
  catch{hint.textContent="Скопируйте адрес этой страницы из строки браузера."}
 };
 if(/^[a-f0-9]{64}$/.test(key)){
- refresh();setInterval(()=>{if(!document.hidden && (order?.stage.endsWith("_queue")||order?.quote))refresh()},7000);
+ function checkWaiting(){
+  if(autoRefresh&&!document.hidden&&(!order||order.stage.endsWith("_queue")||order.quote))refresh();
+ }
+ refresh();setInterval(checkWaiting,15000);
+ document.addEventListener("visibilitychange",checkWaiting);
 }else{document.querySelector("#title").textContent="Нужна личная ссылка";statusLine.textContent="Откройте сохранённую ссылку заказа целиком."}
