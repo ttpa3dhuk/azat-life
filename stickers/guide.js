@@ -131,5 +131,3 @@ $("nav").hidden=false;$("#start").onclick=e=>{e.preventDefault();$("#person-dial
 $$("[data-example]").forEach(b=>b.onclick=()=>{s.person=b.dataset.example;s.shot=0;$("#person-dialog").close();go(1)});
 $$("[name=pack]").forEach(r=>r.onchange=()=>{s.pack=Number(r.value);save();draw()});
 $("#camera-file").onchange=$("#shot-file").onchange;draw();
-
-if (!pilotInvite) { document.querySelector("#invite-note").hidden=false; document.querySelector("#start").hidden=true; }

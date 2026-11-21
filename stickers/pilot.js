@@ -15,7 +15,7 @@ async function stickerRequest(path, options = {}) {
     signal: AbortSignal.timeout(120000)
   });
   if (r.status === 403 && (path === "orders" || path === "check-photo")) {
-    throw Error("Откройте личную ссылку-приглашение для загрузки фото.");
+    throw Error("Не удалось загрузить фото. Обновите страницу и попробуйте ещё раз.");
   }
   return r;
 }

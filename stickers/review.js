@@ -84,7 +84,7 @@ function portraits(){
  });
  if(order.portraits.length<3){
   const note=notes("Что поправить в последней версии?",area);
-  area.append(button("Запросить новую версию",()=>decision("redo_portrait",{note:note.value})),el("small"," Осталось версий в стоимости заказа: "+(3-order.portraits.length)));
+  area.append(button("Запросить новую версию",()=>decision("redo_portrait",{note:note.value})),el("small"," Ещё можно запросить версий: "+(3-order.portraits.length)));
  }else quote();
 }
 function series(){
