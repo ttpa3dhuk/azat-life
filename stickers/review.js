@@ -108,6 +108,11 @@ async function publishTelegram(){
  finally{busy=false;area.inert=false}
 }
 function finished(o){
+ if(o.telegramAvailable||o.telegramUrl){
+  const receive=el("a","Получить набор в личку");
+  receive.href="https://t.me/AzatLifeStickersBot?start=pack_"+o.id;
+  area.append(receive,el("p","Откройте бота с аккаунта, указанного в заказе, и нажмите «Запустить»."));
+ }
  if(o.telegramUrl){
   const link=el("a","Добавить стикерпак в Telegram","primary");link.href=o.telegramUrl;area.append(link);
  }else if(o.telegramPending){
