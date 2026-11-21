@@ -19,11 +19,3 @@ async function stickerRequest(path, options = {}) {
   }
   return r;
 }
-const strip = document.querySelector("#private-examples");
-if (strip && pilotInvite) {
-  Promise.all([...strip.querySelectorAll("img")].map(async img => {
-    const r = await stickerRequest("examples/" + img.dataset.exampleFile);
-    if (!r.ok) throw Error();
-    img.src = URL.createObjectURL(await r.blob());
-  })).then(() => strip.hidden = false).catch(() => {});
-}

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Свой стикерпак по фото · azat.life</title>
-<meta name="description" content="Как снять три портрета на телефон и выбрать реакции для своего стикерпака в Telegram. С примерами каждого ракурса.">
+<meta name="description" content="Персональные стикеры для Telegram по трём фото. Выберите 5 или 12 реакций и утвердите свой портрет.">
 <link rel="canonical" href="https://azat.life/stickers/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Свой стикерпак по фото · azat.life">
@@ -16,8 +16,8 @@
 <meta property="og:image:alt" content="Реакции из двух персональных стикерпаков">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="./style.css?v=selectel1">
-<script defer src="./pilot.js?v=open1"></script>
-<script defer src="./guide.js?v=open1"></script>
+<script defer src="./pilot.js?v=landing2"></script>
+<script defer src="./guide.js?v=landing2"></script>
 </head>
 <body>
 <header><a class="brand" href="https://azat.life/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
@@ -26,26 +26,19 @@
 <div class="hero"><div class="intro"><h1>Свой <br>стикерпак<span>.</span></h1>
 <p>Как вы улыбаетесь, дурачитесь или показываете «люблю»? Соберём ваши реакции в стикерпак для Telegram. Загрузите три фото и выберите 5 или 12 реакций. Сейчас оба набора бесплатные.</p>
 <fieldset class="packages"><legend>Сколько стикеров?</legend><label><input type="radio" name="pack" value="5"> 5 штук</label><label><input type="radio" name="pack" value="12" checked> 12 штук</label></fieldset>
-<dialog id="person-dialog"><h2>Какие примеры показать?</h2><button data-example="man">Парень</button> <button data-example="woman">Девушка</button></dialog>
-<a class="primary" href="#photos" id="start">Сделать стикерпак</a></div>
+<button class="primary" type="button" id="start">Сделать стикерпак</button></div>
 <div class="pack-examples" role="group" aria-label="Примеры стикеров">
 <div class="pack-example pack-strip palette-1">
 <img width="512" height="512" src="./img/01-fire.webp" alt="Большой палец вверх с огоньком">
 <img width="512" height="512" src="./img/04-goofy.webp" alt="Подмигивает и показывает язык">
 <img width="512" height="512" src="./img/03-heart.webp" alt="Сердце из ладоней">
 </div>
-<div id="private-examples" hidden class="pack-example pack-strip palette-2">
-<img width="512" height="512" data-example-file="07-cool.webp" alt="Взгляд поверх солнечных очков">
-<img width="512" height="512" data-example-file="11-heart.webp" alt="Обнимает красное сердце">
-<img width="512" height="512" data-example-file="02-laugh.webp" alt="Смеётся до слёз">
+<div class="pack-example pack-strip palette-2">
+<img width="512" height="512" src="./img/07-cool.webp" alt="Взгляд поверх солнечных очков">
+<img width="512" height="512" src="./img/11-heart.webp" alt="Обнимает красное сердце">
+<img width="512" height="512" src="./img/02-laugh.webp" alt="Смеётся до слёз">
 </div>
 </div></div>
-<div class="prep" id="photos"><div><h2>Как поставить телефон</h2><p>Встаньте лицом к окну. Поставьте заднюю камеру на уровне глаз в 1,5–2 метрах от себя. Выберите 1× и включите таймер. Отключите ретушь и размытие фона.</p>
-<p>Оставьте в кадре макушку и плечи. Очки и причёска пусть будут такими, как вы обычно их носите. Если в галерее уже есть подходящие свежие снимки, берите их.</p></div>
-<div><h2>Какие нужны кадры</h2><p>Анфас и два поворота в три четверти. На каждом снимке должны быть видны оба глаза.</p><details class="shot-examples"><summary>Посмотреть примеры ракурсов</summary><div class="examples">
-<figure><img data-thumb="0" src="./img/man-0.jpg" alt="Лицо прямо"><figcaption>Анфас</figcaption></figure>
-<figure><img data-thumb="1" src="./img/man-1.jpg" alt="Нос к левому краю фото"><figcaption>¾ влево</figcaption></figure>
-<figure><img data-thumb="2" src="./img/man-2.jpg" alt="Нос к правому краю фото"><figcaption>¾ вправо</figcaption></figure></div><div class="switch"></div></details></div></div>
 <noscript><p>Для загрузки и согласования включите JavaScript.</p></noscript>
 </section>
 <p id="resume-order" hidden><a id="resume-link">Открыть свой заказ</a></p>

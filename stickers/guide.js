@@ -24,7 +24,7 @@ function shot(n){s.shot=n;save();draw();window.scrollTo(0,0);document.querySelec
 function imagePath(i){return "./img/"+s.person+"-"+i+".jpg"}
 function draw(){
  ids.forEach((id,i)=>$("#"+id).hidden=i!==s.stage);
- $$('[data-thumb]').forEach(img=>img.src=imagePath(img.dataset.thumb));
+ $("nav").hidden=s.stage===0;
  $$(".switch button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.person===s.person));
  $$("nav button").forEach((b,i)=>{if(i===s.stage)b.setAttribute("aria-current","step");else b.removeAttribute("aria-current")});
  const i=s.shot,[name,pose,quality]=shots[i];$("#num").textContent="Кадр "+(i+1)+" из "+shots.length;$("#count").textContent="Готово "+files.filter(Boolean).length+" из "+shots.length;
@@ -127,7 +127,6 @@ $("#submit").onclick=async()=>{
 };
 const previous=localStorage.getItem(recent);
 if(previous && /^review\.html#[a-f0-9]{64}$/.test(previous)){$("#resume-link").href=previous;$("#resume-order").hidden=false}
-$("nav").hidden=false;$("#start").onclick=e=>{e.preventDefault();$("#person-dialog").showModal()};
-$$("[data-example]").forEach(b=>b.onclick=()=>{s.person=b.dataset.example;s.shot=0;$("#person-dialog").close();go(1)});
+$("#start").onclick=()=>{s.shot=0;go(1)};
 $$("[name=pack]").forEach(r=>r.onchange=()=>{s.pack=Number(r.value);save();draw()});
 $("#camera-file").onchange=$("#shot-file").onchange;draw();
