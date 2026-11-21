@@ -9,9 +9,28 @@ async function api(path,options={}){
  const r=await stickerRequest(path,{...options,headers:{...headers,...options.headers}});
  if(!r.ok){let msg="Соединение прервалось. Попробуйте ещё раз.";try{msg=(await r.json()).error||msg}catch{}throw Error(msg)}return r;
 }
+const contactForm=document.querySelector("#contact-form");
+const contactInput=document.querySelector("#telegram-contact");
+const contactStatus=document.querySelector("#contact-status");
+let savedContact="";
+async function saveContact(){
+ const value=contactInput.value.trim();
+ if(savedContact && value==="@"+savedContact)return true;
+ if(!value){contactInput.focus();contactInput.reportValidity();return false}
+ try{
+  const r=await api("contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:value})});
+  savedContact=(await r.json()).telegramUsername;
+  if(contactInput.value.trim()===value)contactInput.value="@"+savedContact;
+  contactStatus.textContent="Сохранено: @"+savedContact;
+  return true;
+ }catch(e){contactStatus.textContent=e.message;contactInput.focus();return false}
+}
+contactForm.onsubmit=async e=>{e.preventDefault();if(busy)return;busy=true;try{await saveContact()}finally{busy=false}};
 async function decision(action,data={}){
  if(busy)return;busy=true;area.inert=true;statusLine.textContent="Сохраняем…";
  try{
+  const finalApproval=action==="finish"||(action==="review_series"&&!data.notes.some(Boolean));
+  if(finalApproval&&order.freePilot&&!await saveContact()){statusLine.textContent="Укажите Telegram перед утверждением.";return}
   const r=await api("decision",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({revision:order.revision,action,...data})});
   render(await r.json());statusLine.textContent="Решение сохранено.";
  }catch(e){statusLine.textContent=e.message}
@@ -141,6 +160,10 @@ function waitingPanel(o){
  content.append(hint,toggle);panel.append(content);area.append(panel);
 }
 function render(o){
+ if(contactForm.hidden){
+  savedContact=o.telegramUsername||"";contactInput.value=savedContact?"@"+savedContact:"";contactForm.hidden=false;
+  if(savedContact)contactStatus.textContent="Сохранено: @"+savedContact;
+ }
  order=o;renderId++;urls.forEach(URL.revokeObjectURL);urls=[];area.replaceChildren();
  document.querySelector("#title").textContent=titles[o.stage];
  document.querySelector("#price").textContent=(o.package?"Пакет · "+o.package+" шт.":o.items.length+" × "+o.unit+" ₽")+" = "+(o.freePilot?"бесплатно":o.total+" ₽")+(o.payments?.length?" · оплачено за доп. правки: "+o.payments.reduce((a,p)=>a+p.amount,0)+" ₽":"");

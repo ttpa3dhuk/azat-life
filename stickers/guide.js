@@ -107,6 +107,8 @@ let uploadKey;
 $("#submit").onclick=async()=>{
  addCustom();
  const message=$("#notice"), button=$("#submit"), labels=allReactions();
+ const contact=$("#telegram-contact");
+ if(!contact.value.trim()){contact.focus();contact.reportValidity();message.textContent="Укажите ваш Telegram.";return}
  if(labels.length!==s.pack){message.textContent="Выберите ровно "+s.pack+" реакций.";return}
  if(files.some(f=>!f)){message.textContent="Прикрепите все три ракурса.";return}
  const extra=Array.from($("#expression").files);if(extra.length>3){message.textContent="Можно приложить до трёх фото мимики.";return}
@@ -114,7 +116,7 @@ $("#submit").onclick=async()=>{
  button.disabled=true;message.textContent="Загружаем фотографии…";
  try{
   uploadKey=uploadKey || sessionStorage.getItem(keyName) || token();sessionStorage.setItem(keyName,uploadKey);
-  const form=new FormData();form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("details",s.details);
+  const form=new FormData();form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("details",s.details);
   roles.forEach((r,i)=>form.set(r,files[i]));
   const response=await stickerRequest("orders",{method:"POST",headers:{Authorization:"Bearer "+uploadKey},body:form});
   const body=await response.json();

@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="stylesheet" href="./style.css?v=selectel1">
 <script defer src="./pilot.js?v=1"></script>
-<script defer src="./guide.js?v=first-shot"></script>
+<script defer src="./guide.js?v=contact1"></script>
 </head>
 <body>
 <header><a class="brand" href="https://azat.life/">azat<span>.</span>life</a><a class="pack" href="https://t.me/addstickers/AzatLife">Стикеры в Telegram ↗</a></header>
@@ -65,6 +65,8 @@
 <section id="send" class="work" hidden><h2 class="display" tabindex="-1">Загрузить заказ</h2><div class="split"><div><h3>Три фотографии</h3><p>JPEG, PNG, WebP или HEIC. До 38 МБ на весь заказ. Здесь можно заменить любой кадр.</p><div id="uploads"></div></div>
 <div><aside><h3>Ваши реакции</h3><p id="chosen"></p><p id="bill" class="price"></p><p>Сначала вы посмотрите портрет. В пакет входят до трёх версий портрета и один круг правок по выбранным стикерам. </p></aside>
 <p>Фотографии сохраняются на сервере заказа и передаются в генератор изображений OpenAI для отрисовки. Ссылку на заказ сохраните для себя.</p>
+<label for="telegram-contact">Ваш Telegram</label><input id="telegram-contact" type="text" placeholder="@username" maxlength="160" autocapitalize="none" autocorrect="off" spellcheck="false" required aria-describedby="telegram-help">
+<p id="telegram-help">Укажите ник с @ или без неё либо ссылку t.me/username. По этому контакту мы сможем прислать ссылку на готовый набор.</p>
 <button id="submit" class="primary">Загрузить фото и оформить заказ</button><p id="notice" role="status"></p><button data-go="2">Изменить реакции</button></div></div></section>
 </main>
 </body></html>
