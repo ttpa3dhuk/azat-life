@@ -92,8 +92,35 @@ function portraits(){
  });
  if(order.portraits.length<3){
   const note=notes("Что поправить в последней версии?",area);
-  area.append(button("Запросить новую версию",()=>decision("redo_portrait",{note:note.value})),el("small"," Ещё можно запросить версий: "+(3-order.portraits.length)));
+  const hint=el("p");
+  hint.setAttribute("role","status");
+  note.oninput=()=>{hint.textContent=""};
+  area.append(hint,button("Запросить новую версию",()=>{
+   if(!note.value.trim()){
+    hint.textContent="Напишите, что изменить в портрете.";
+    note.focus();
+    return;
+   }
+   decision("redo_portrait",{note:note.value});
+  }),el("small"," Ещё можно запросить версий: "+(3-order.portraits.length)));
+  const photo=el("input");photo.type="file";photo.accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif";photo.hidden=true;
+  photo.onchange=()=>{if(photo.files[0])replacePortraitPhoto(photo.files[0]);photo.value=""};
+  const replacement=el("details");replacement.append(el("summary","Заменить исходное фото"),
+   el("p","Загрузите новое фото анфас. Мы создадим по нему следующую версию портрета."),
+   button("Выбрать другое фото",()=>photo.click()),photo);
+  area.append(replacement);
  }else quote();
+}
+async function replacePortraitPhoto(photo){
+ if(busy)return;
+ busy=true;area.inert=true;statusLine.textContent="Проверяем новое фото…";
+ try{
+  const body=new FormData();
+  body.set("photo",photo);body.set("revision",String(order.revision));
+  render(await (await api("portrait-photo",{method:"POST",body})).json());
+  statusLine.textContent="";
+ }catch(e){statusLine.textContent=e.message}
+ finally{busy=false;area.inert=false}
 }
 function series(){
  area.append(el("p","Отметьте только те рисунки, которые хотите поправить. Остальные будут приняты. Все замечания отправьте за один раз."));

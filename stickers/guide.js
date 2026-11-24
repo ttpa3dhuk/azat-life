@@ -43,7 +43,37 @@ if(![5,12].includes(s.pack))s.pack=12;
 const files=[null,null,null];
 const photoMessages=["","",""],checks=[0,0,0];
 const roles=["front","left","right"];
-const allReactions=()=>[...new Set([...s.selected,...s.extra])];
+const emojiSegments=Intl.Segmenter?new Intl.Segmenter("ru",{granularity:"grapheme"}):null;
+const isEmoji=value=>/\p{Extended_Pictographic}|\p{Regional_Indicator}|\u20e3/u.test(value);
+const reactionKey=value=>value.replace(/[\uFE0E\uFE0F]/g,"");
+function uniqueReactions(values){
+ const unique=new Map();
+ for(const value of values){
+  const key=reactionKey(value);
+  if(!unique.has(key))unique.set(key,value);
+ }
+ return [...unique.values()];
+}
+const allReactions=()=>uniqueReactions([...s.selected,...s.extra]);
+function typedReactions(){
+ return $("#custom").value.split(/[,;\n]/).map(part=>part.trim()).filter(Boolean).flatMap(part=>{
+  const chars=emojiSegments?Array.from(emojiSegments.segment(part),item=>item.segment).filter(char=>char.trim()):[part];
+  return chars.every(isEmoji)?chars:[part];
+ });
+}
+const previewReactions=()=>uniqueReactions([...allReactions(),...typedReactions()]);
+function updateReactionCount(){
+ const reactions=previewReactions();
+ const count=reactions.length;
+ const remaining=s.pack-count;
+ $("#price").textContent="Выбрано "+count+" из "+s.pack+" · "+(rates[s.pack]?rates[s.pack]+" ₽":"бесплатно");
+ $("#fill-pack").disabled=remaining<=0;
+ $("#custom-hint").textContent=remaining<0?"Уберите лишние реакции: "+(-remaining)+".":"";
+ $$(".chips button[title]").forEach(b=>{
+  const inDraft=reactions.some(value=>reactionKey(value)===reactionKey(b.textContent));
+  b.disabled=count>=s.pack&&!inDraft&&!s.selected.includes(b.textContent);
+ });
+}
 function save(){try{localStorage.setItem(draftKey,JSON.stringify(s))}catch{}}
 function btn(text,fn){let b=document.createElement("button");b.textContent=text;b.onclick=fn;return b}
 function go(n){s.stage=n;save();draw();window.scrollTo(0,0);document.querySelector(".work:not([hidden]) h2")?.focus({preventScroll:true})}
@@ -64,12 +94,11 @@ function draw(){
  $("#shot-file").value="";
  const labels=allReactions();
  showScenes(labels);
- $("#fill-pack").disabled=labels.length>=s.pack;
- $("#price").textContent=$("#bill").textContent="Выбрано "+labels.length+" из "+s.pack+" · "+(rates[s.pack]?rates[s.pack]+" ₽":"бесплатно");
+ updateReactionCount();
+ $("#bill").textContent=$("#price").textContent;
  $("#chosen").textContent=labels.join(" · ") || "Пока ничего не выбрано";
  $("#custom-list").replaceChildren(...s.extra.map(v=>btn(v+" ×",()=>{s.extra=s.extra.filter(x=>x!==v);save();draw()})));
  document.querySelectorAll("[name=pack]").forEach(r=>r.checked=Number(r.value)===s.pack);
- $$(".chips button[title]").forEach(b=>b.disabled=labels.length>=s.pack&&!s.selected.includes(b.textContent));
  roles.forEach((r,j)=>{
   $("#name-"+r).textContent=photoMessages[j] || files[j]?.name || (j===0?"Обязательное фото":"По желанию");
   $("#pick-"+r).textContent=files[j]?"Заменить фото":"Выбрать фото";
@@ -92,7 +121,7 @@ async function selectPhoto(i,file){
  }catch(e){if(seq===checks[i])photoMessages[i]=e.message}
  if(seq===checks[i])draw();
 }
-stages.forEach((name,i)=>$("nav").append(btn(i===3?"Загрузка":name,()=>go(i))));
+stages.forEach((name,i)=>$("nav").append(btn(i===3?"Загрузка":name,i===3?openUpload:()=>go(i))));
 for(const el of $$(".switch")) for(const [key,name] of [["man","Парень"],["woman","Девушка"]]){
  const b=btn(name,()=>{s.person=key;save();draw()}); b.dataset.person=key;el.append(b);
 }
@@ -110,43 +139,52 @@ shots.forEach((v,i)=>{
 options.forEach(([em,name])=>{const b=btn(em,()=>{s.selected=s.selected.includes(em)?s.selected.filter(x=>x!==em):[...s.selected,em];save();draw()});b.setAttribute("aria-label",name);b.title=name;$(".chips").append(b)});
 $("#fill-pack").onclick=()=>{
  if(!addCustom())return;
- const chosen=new Set(allReactions());
+ const chosen=new Set(allReactions().map(reactionKey));
  for(const [emoji] of options){
   if(chosen.size>=s.pack)break;
-  if(chosen.has(emoji))continue;
-  chosen.add(emoji);
+  if(chosen.has(reactionKey(emoji)))continue;
+  chosen.add(reactionKey(emoji));
   s.selected.push(emoji);
  }
  save();draw();
  $("#custom-hint").textContent="Набор заполнен. Любую реакцию можно заменить.";
 };
 function addCustom(){
- const value=$("#custom").value.trim();if(!value){return true;}
- const segments=Intl.Segmenter?new Intl.Segmenter("ru",{granularity:"grapheme"}):null;
- const pending=new Set(allReactions());
- for(const part of value.split(/[,;\n]/).map(x=>x.trim()).filter(Boolean)){
-  const chars=segments?Array.from(segments.segment(part),x=>x.segment).filter(v=>v.trim()):[part];
-  const group=chars.every(v=>/\p{Extended_Pictographic}|\p{Regional_Indicator}|\u20e3/u.test(v))?chars:[part];
-  for(const entry of group)pending.add(entry);
+ const pending=previewReactions();
+ if(pending.length>s.pack){
+  updateReactionCount();
+  return false;
  }
- if(pending.size>s.pack){$("#custom-hint").textContent="Пакет заполнен. Снимите одну из выбранных реакций.";return false}
- $("#custom-hint").textContent=pending.size===allReactions().length?"Такая реакция уже выбрана.":"Добавлено.";
- s.extra=[...pending].filter(v=>!s.selected.includes(v));s.custom="";$("#custom").value="";save();draw();return true;
+ const selected=new Set(s.selected.map(reactionKey));
+ s.extra=pending.filter(value=>!selected.has(reactionKey(value)));
+ s.custom="";
+ $("#custom").value="";
+ save();draw();
+ return true;
+}
+function openUpload(){
+ if(!addCustom()){if(s.stage!==2)go(2);return}
+ if(allReactions().length!==s.pack){
+  if(s.stage!==2)go(2);
+  $("#custom-hint").textContent="Добавьте ещё "+(s.pack-allReactions().length)+" до полного набора.";
+  return;
+ }
+ go(3);
 }
 $("#add-custom").onclick=()=>{if(!$("#custom").value.trim()){$("#custom-hint").textContent="Введите эмодзи или название реакции.";$("#custom").focus()}else addCustom()};
 $("#custom").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();addCustom()}};
-$$("[data-go]").forEach(b=>b.onclick=()=>{if(+b.dataset.go===3){if(!addCustom())return;if(allReactions().length!==s.pack){$("#custom-hint").textContent="Выберите ровно "+s.pack+" реакций.";return}}go(+b.dataset.go)});
+$$("[data-go]").forEach(b=>b.onclick=b.dataset.go==="3"?openUpload:()=>go(+b.dataset.go));
 $("#prev").onclick=()=>s.shot===0?go(0):shot(s.shot-1);
 function nextShot(){go(2)}
 $("#shot-file").onchange=e=>{const f=e.target.files[0];e.target.value="";selectPhoto(s.shot,f)};
 $("#next").onclick=()=>{if(!files[s.shot]){$("#shot-file").click();return}nextShot()};
 $("#later").onclick=nextShot;
-for(const id of ["custom","details"]){$("#"+id).value=s[id];$("#"+id).oninput=e=>{s[id]=e.target.value;save()}}
+for(const id of ["custom","details"]){$("#"+id).value=s[id];$("#"+id).oninput=e=>{s[id]=e.target.value;save();if(id==="custom")updateReactionCount()}}
 const keyName="stickers.pending-upload.v1", recent="stickers.last-order.v1";
 function token(){return [...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,"0")).join("")}
 let uploadKey;
 $("#submit").onclick=async()=>{
- addCustom();
+ if(!addCustom()){go(2);return}
  const message=$("#notice"), button=$("#submit"), labels=allReactions();
  const contact=$("#telegram-contact");
  if(!pricingReady){message.textContent="Не удалось загрузить цену. Обновите страницу.";return}
