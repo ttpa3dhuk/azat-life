@@ -6,7 +6,9 @@ const headers={Authorization:"Bearer "+key};
 function el(tag,text="",cl=""){const e=document.createElement(tag);e.textContent=text;if(cl)e.className=cl;return e}
 function button(text,run,primary=false){const b=el("button",text,primary?"primary":"");b.onclick=run;return b}
 async function api(path,options={}){
- const r=await stickerRequest(path,{...options,headers:{...headers,...options.headers}});
+ let r;
+ try{r=await stickerRequest(path,{...options,headers:{...headers,...options.headers}})}
+ catch{throw Error("Не удалось загрузить данные. Попробуйте ещё раз.")}
  if(!r.ok){let msg="Соединение прервалось. Попробуйте ещё раз.";try{msg=(await r.json()).error||msg}catch{}throw Error(msg)}return r;
 }
 const titleForm=document.querySelector("#title-form");
@@ -33,14 +35,14 @@ let savedContact="";
 async function saveContact(){
  const value=contactInput.value.trim();
  if(savedContact && value==="@"+savedContact)return true;
- if(!value){contactInput.focus();contactInput.reportValidity();return false}
+ if(!value){document.querySelector("#order-settings").open=true;contactInput.focus();contactInput.reportValidity();return false}
  try{
   const r=await api("contact",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username:value})});
   savedContact=(await r.json()).telegramUsername;
   if(contactInput.value.trim()===value)contactInput.value="@"+savedContact;
   contactStatus.textContent="Сохранено: @"+savedContact;
   return true;
- }catch(e){contactStatus.textContent=e.message;contactInput.focus();return false}
+ }catch(e){document.querySelector("#order-settings").open=true;contactStatus.textContent=e.message;contactInput.focus();return false}
 }
 contactForm.onsubmit=async e=>{e.preventDefault();if(busy)return;busy=true;try{await saveContact()}finally{busy=false}};
 async function decision(action,data={}){
@@ -68,7 +70,7 @@ function quote(){if(order.freePilot)return;
   if(q.status==="requested")area.append(el("p","Запрос стоимости дополнительных правок получен."));
   if(q.status==="offered")area.append(el("p","Дополнительная правка: "+q.amount+" ₽. "+q.note),
     button("Согласовать цену",()=>decision("accept_quote"),true),button("Отказаться от правки",()=>decision("decline_quote")));
-  if(q.status==="accepted")area.append(el("p","Цена согласована: "+q.amount+" ₽. Работа начнётся после подтверждения оплаты оператором."));
+  if(q.status==="accepted")area.append(el("p","Цена согласована: "+q.amount+" ₽. Начнём правку после подтверждения оплаты."));
   return;
  }
  const d=el("details");d.append(el("summary","Запросить дополнительные платные правки"));
@@ -120,7 +122,7 @@ function choose(){
 async function publishTelegram(){
  if(busy)return;
  busy=true;area.inert=true;statusLine.textContent="Публикуем набор в Telegram…";
- try{render(await (await api("publish-telegram",{method:"POST"})).json());statusLine.textContent="Набор опубликован."}
+ try{render(await (await api("publish-telegram",{method:"POST"})).json());statusLine.textContent=order.telegramUrl?"Набор опубликован.":""}
  catch(e){statusLine.textContent=e.message}
  finally{busy=false;area.inert=false}
 }
@@ -133,7 +135,7 @@ function finished(o){
  if(o.telegramUrl){
   const link=el("a","Добавить стикерпак в Telegram","primary");link.href=o.telegramUrl;area.append(link);
  }else if(o.telegramPending){
-  area.append(el("p","Набор утверждён. Здесь появится ссылка, когда Telegram подтвердит публикацию."));
+  area.append(el("p","Публикуем набор в Telegram. Ссылка появится здесь."));
  }else if(o.telegramAvailable){
   area.append(el("p","После публикации любой человек со ссылкой сможет добавить набор."),
    button("Опубликовать набор в Telegram",publishTelegram,true));
@@ -144,8 +146,8 @@ async function download(){
  try{const blob=await (await api("pack")).blob();const a=el("a");a.href=URL.createObjectURL(blob);a.download="stickers.zip";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
  catch(e){statusLine.textContent=e.message}
 }
-const titles={portrait_queue:"Портрет в очереди",portrait_review:"Узнаёте себя?",series_queue:"Готовим ваши реакции",series_review:"Посмотрите весь набор",changes_queue:"Правим отмеченные стикеры",choice:"Выберите версии",done:"Ваш стикерпак готов"};
-let autoRefresh=true, refreshing=false;
+const titles={portrait_queue:"Готовим ваш портрет",portrait_review:"Узнаёте себя?",series_queue:"Готовим ваши реакции",series_review:"Посмотрите весь набор",changes_queue:"Правим отмеченные стикеры",choice:"Выберите версии",done:"Ваш стикерпак готов"};
+let refreshing=false;
 function waitingPanel(o){
  const panel=el("section","","waiting-panel");
  const paused=o.quotaWait||o.paused;
@@ -153,44 +155,33 @@ function waitingPanel(o){
  if(!paused)panel.append(ring);
  const content=el("div");
  let message;
- if(o.quotaWait)message="Заказ сохранён. Ждём восстановления лимита отрисовки.";
- else if(o.paused)message="Заказ сохранён. Отрисовка на паузе, оператор проверит очередь.";
+ if(paused)message="Заказ сохранён. Подготовка займёт чуть больше времени.";
  else if(o.stage==="portrait_queue")message=o.portraits.length
-  ? "Правки получены. Здесь появится портрет № "+(o.portraits.length+1)+"."
-  : "Фото получены. Первый портрет появится здесь.";
- else if(o.stage==="series_queue")message="Портрет № "+(o.portraits.indexOf(o.approved)+1)+" утверждён. Когда все стикеры будут готовы, здесь появится набор из "+o.items.length+" шт.";
- else message="Правки получены. Здесь появятся исходные и новые версии для сравнения.";
- const hint=el("p");const toggle=button("",()=>{
-  autoRefresh=!autoRefresh;sync();if(autoRefresh)refresh();
- });
- function sync(){
-  toggle.textContent=autoRefresh?"Выключить автообновление":"Включить автообновление";
-  toggle.setAttribute("aria-pressed",String(autoRefresh));
-  hint.textContent=autoRefresh?"Проверяем каждые 15 секунд, пока страница открыта.":"Автообновление выключено. Можно проверить вручную.";
- }
- sync();content.append(el("strong",message));
+  ? "Новая версия портрета появится здесь."
+  : "Фото получены. Готовый портрет появится здесь.";
+ else if(o.stage==="series_queue")message="Готовые стикеры появятся здесь.";
+ else message="Здесь можно будет сравнить рисунки до и после правок.";
+ content.append(el("strong",message));
  if(o.progress){
   const progress=o.progress;
   const count=el("p","Готово "+progress.done+" из "+progress.total);
   const bar=el("progress");bar.max=progress.total;bar.value=progress.done;bar.setAttribute("aria-label",count.textContent);
   content.append(count,bar);
-  if(!paused){
-   content.append(el("p",progress.active?"Сейчас рисуем: "+progress.active:"Ждём следующую реакцию в очереди."));
-   content.append(el("p",progress.minutes?"Осталось примерно "+progress.minutes+" мин по темпу этого заказа.":"Оценка времени появится после первых готовых рисунков."));
-  }
+  if(!paused&&progress.minutes)content.append(el("p","Осталось примерно "+progress.minutes+" мин."));
  }
- content.append(hint,toggle);panel.append(content);area.append(panel);
+ panel.append(content);area.append(panel);
 }
 function render(o){
  if(titleForm.hidden){titleInput.value=o.packTitle||"Мои реакции · azat.life";titleForm.hidden=false}
  if(contactForm.hidden){
   savedContact=o.telegramUsername||"";contactInput.value=savedContact?"@"+savedContact:"";contactForm.hidden=false;
-  if(savedContact)contactStatus.textContent="Сохранено: @"+savedContact;
  }
  document.querySelector("#save-order").hidden=!o.telegramAvailable;
  order=o;renderId++;urls.forEach(URL.revokeObjectURL);urls=[];area.replaceChildren();
  document.querySelector("#title").textContent=titles[o.stage];
- document.querySelector("#price").textContent=(o.package?"Пакет · "+o.package+" шт.":o.items.length+" × "+o.unit+" ₽")+" = "+(o.freePilot?"бесплатно":o.total+" ₽")+(o.payments?.length?" · оплачено за доп. правки: "+o.payments.reduce((a,p)=>a+p.amount,0)+" ₽":"");
+ const count=o.items.length;
+ const extraPaid=o.payments?.reduce((sum,payment)=>sum+payment.amount,0);
+ document.querySelector("#price").textContent=count+" стикеров · "+(o.freePilot?"бесплатно":o.total+" ₽")+(extraPaid?" · правки оплачены: "+extraPaid+" ₽":"");
  document.querySelector("#order-tools").hidden=false;
  if(o.stage==="portrait_review")portraits();
  else if(o.stage==="series_review")series();
@@ -213,7 +204,6 @@ async function refresh(){
  }catch(e){statusLine.textContent=e.message}
  finally{refreshing=false}
 }
-document.querySelector("#refresh").onclick=refresh;
 document.querySelector("#copy-link").onclick=async()=>{
  const hint=document.querySelector("#copy-status");
  try{await navigator.clipboard.writeText(location.href);hint.textContent="Личная ссылка скопирована."}
@@ -224,7 +214,7 @@ if(/^[a-f0-9]{64}$/.test(key)){
  const code=btoa(String.fromCharCode(...keyBytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
  document.querySelector("#save-order-telegram").href="https://t.me/AzatLifeStickersBot?start=order_"+code;
  function checkWaiting(){
-  if(autoRefresh&&!document.hidden&&(!order||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
+  if(!document.hidden&&(!order||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
  }
  refresh();setInterval(checkWaiting,15000);
  document.addEventListener("visibilitychange",checkWaiting);

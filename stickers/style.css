@@ -71,3 +71,10 @@ textarea,input[type=text]{display:block;width:100%;background:white;color:inheri
 .waiting-ring{flex:none;width:23px;height:23px;margin-top:3px;border:3px solid #dccfae;border-top-color:#825400;border-radius:50%;animation:waiting-turn 1.3s linear infinite}
 @keyframes waiting-turn{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.waiting-ring{animation:none}}
+.review #activity:empty,.review #copy-status:empty,.review form [role="status"]:empty{display:none}
+#order-tools{border-top:1px solid var(--line);margin-top:24px;padding-top:16px}
+#order-tools button{margin:4px 0}
+.save-order p{margin:8px 0 12px}
+#order-settings{margin-top:14px}
+#order-settings summary{cursor:pointer}
+#order-settings form{margin-top:16px}
