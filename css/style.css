@@ -257,6 +257,10 @@ ul, ol {
   margin: -14px 0 34px;
 }
 
+#ndi .hero__actions + .section__intro {
+  margin: 16px 0 0;
+}
+
 /* ---------- Карточки ---------- */
 
 .cards {
