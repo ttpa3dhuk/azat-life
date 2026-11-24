@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Прошивки Behringer WING — архив всех версий</title>
-  <meta name="description" content="Архив прошивок Behringer WING, WING Compact и WING Rack: все версии от 2.0 до 3.1.2 с датами сборки и заметками о выпуске. Скачать напрямую.">
-  <meta property="og:title" content="Прошивки Behringer WING — архив всех версий">
-  <meta property="og:description" content="WING, Compact и Rack: версии от 2.0 до 3.1.2 в одном месте.">
+  <title>Загрузки для сцены — NDI Runtime, WING и Dante</title>
+  <meta name="description" content="NDI Runtime для CueDeck на Windows и macOS, архив прошивок Behringer WING, WING Compact, WING Rack и обновления Dante.">
+  <meta property="og:title" content="Загрузки для сцены — NDI Runtime, WING и Dante">
+  <meta property="og:description" content="NDI Runtime для CueDeck и прошивки Behringer WING и Dante.">
   <meta property="og:url" content="https://azat.life/behringer-firmware/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://azat.life/generated/wing-firmware-og.jpg">
@@ -24,6 +24,7 @@
   <header class="nav">
     <a class="nav__logo" href="/">azat.life</a>
     <nav class="nav__links">
+      <a href="#ndi">NDI</a>
       <a href="#full">WING</a>
       <a href="#compact">Compact</a>
       <a href="#rack">Rack</a>
@@ -36,16 +37,26 @@
 
     <section class="hero hero--page">
       <div class="hero__text">
-        <p class="hero__kicker">Архив прошивок</p>
-        <h1>Behringer WING</h1>
-        <p class="hero__lead">
-          Все версии для WING, WING Compact и WING Rack — от 2.0 до 3.1.2.
-          С датами сборки и заметками о выпуске, скачиваются напрямую.
-        </p>
+        <h1>Загрузки для сцены</h1>
+        <p class="hero__lead">NDI Runtime для CueDeck и архив прошивок Behringer WING и Dante.</p>
       </div>
     </section>
 
-    <section class="section">
+    <section class="section" id="ndi">
+      <h2>NDI® Runtime для CueDeck</h2>
+      <p class="section__intro">
+        Выберите установщик для своей системы. После установки откройте «Настройки → Выходы»
+        в CueDeck, выключите нужный NDI-выход и включите его снова.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="files/ndi-runtime-windows.exe">Windows (.exe)</a>
+        <a class="btn" href="files/ndi-runtime-macos.pkg">macOS (.pkg)</a>
+      </div>
+      <p class="section__intro">Здесь лежат оригинальные установщики. <a href="https://ndi.video/">Сайт NDI</a>.</p>
+    </section>
+
+    <section class="section" aria-labelledby="wing-archive">
+      <h2 id="wing-archive">Прошивки Behringer WING</h2>
       <div class="notice">
         <p>
           <strong>Зачем это здесь.</strong> Behringer держит на сайте только последнюю версию.
@@ -276,6 +287,7 @@
       Файлы выпущены Behringer и распространяются производителем бесплатно.
       Здесь они продублированы, чтобы старые версии не пропадали.
     </p>
+    <p>NDI® is a registered trademark of Vizrt NDI AB.</p>
     <p>© 2026 Азат Хусаенов · <a href="/">azat.life</a></p>
   </footer>
 
