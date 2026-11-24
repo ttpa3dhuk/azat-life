@@ -140,7 +140,7 @@ function series(){
  grid.onchange=()=>submit.textContent=feedback.some(f=>f.box.checked)?"Отправить все правки":(order.telegramAvailable?"Утвердить и опубликовать в Telegram":"Утвердить весь набор");area.append(submit);
 }
 function choose(){
- area.append(el("p","Для каждого исправленного стикера выберите исходный или новый рисунок."));
+ area.append(el("p","Выберите подходящую версию каждого исправленного стикера."));
  const choices=order.items.map(it=>it.selected||it.versions[0]);
  order.items.forEach((item,i)=>{
   if(item.versions.length<2)return;
@@ -150,6 +150,24 @@ function choose(){
    radio.onchange=()=>choices[i]=v;card.append(radio,document.createTextNode(j?"Вариант "+(j+1):"Исходный вариант"),art(v,item.label));grid.append(card);
   });
  });
+ const rounds=order.revisionRounds??Number(Boolean(order.revisionRound));
+ if(rounds<2){
+  const more=el("details");
+  more.append(el("summary","Запросить ещё одну правку"),
+   el("p","Сначала выберите версию, которую хотите изменить. Оставьте комментарий к каждому стикеру, который нужно поправить."));
+  const comments=order.items.map((item,i)=>notes((i+1)+". "+item.label,more));
+  const hint=el("p");
+  hint.setAttribute("role","status");
+  more.append(button("Отправить правки",()=>{
+   const feedback=comments.map(comment=>comment.value.trim());
+   if(!feedback.some(Boolean)){
+    hint.textContent="Напишите, что изменить хотя бы в одном стикере.";
+    comments[0].focus();return;
+   }
+   decision("revise_choices",{choices,notes:feedback});
+  }),hint);
+  area.append(more);
+ }
  area.append(button(order.telegramAvailable?"Опубликовать выбранные версии в Telegram":"Сохранить выбранные версии",()=>decision("finish",{choices,publishTelegram:!!order.telegramAvailable}),true));
 }
 async function publishTelegram(){
