@@ -2,7 +2,7 @@
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><title>Мой стикерпак · Согласование</title>
 <link rel="stylesheet" href="./style.css?v=waiting15"><script defer src="./pilot.js?v=open1"></script>
-<script defer src="./review.js?v=open1"></script></head>
+<script defer src="./review.js?v=save-order1"></script></head>
 <body><header><a class="brand" href="./">azat<span>.</span>life</a><span>Мой стикерпак</span></header>
 <main class="review"><h1 id="title">Открываем заказ…</h1><p id="price" class="price"></p>
 <form id="title-form" hidden><label for="pack-title">Название стикерпака в Telegram</label><input id="pack-title" type="text" maxlength="64" placeholder="Например, Азат на связи">
@@ -10,6 +10,7 @@
 <form id="contact-form" hidden><label for="telegram-contact">Ваш Telegram</label><input id="telegram-contact" type="text" placeholder="@username" maxlength="160" autocapitalize="none" autocorrect="off" spellcheck="false" required aria-describedby="telegram-help">
 <p id="telegram-help">Укажите ник с @ или без неё либо ссылку t.me/username. По этому контакту мы сможем прислать ссылку на готовый набор.</p>
 <button type="submit">Сохранить Telegram</button><p id="contact-status" role="status"></p></form>
+<section id="save-order" hidden><p>Откройте бота и нажмите Start. Он сохранит личную ссылку в вашем чате.</p><a id="save-order-telegram" target="_blank" rel="noopener noreferrer">Сохранить ссылку в Telegram ↗</a></section>
 <div id="order-area"></div><p id="activity" role="status"></p><div id="order-tools" hidden><hr>
 <p>Сохраните личную ссылку. По ней можно посмотреть рисунки и подтвердить заказ.</p>
 <button id="copy-link">Скопировать личную ссылку</button><button id="refresh">Проверить обновления</button>

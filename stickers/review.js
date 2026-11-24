@@ -187,6 +187,7 @@ function render(o){
   savedContact=o.telegramUsername||"";contactInput.value=savedContact?"@"+savedContact:"";contactForm.hidden=false;
   if(savedContact)contactStatus.textContent="Сохранено: @"+savedContact;
  }
+ document.querySelector("#save-order").hidden=!o.telegramAvailable;
  order=o;renderId++;urls.forEach(URL.revokeObjectURL);urls=[];area.replaceChildren();
  document.querySelector("#title").textContent=titles[o.stage];
  document.querySelector("#price").textContent=(o.package?"Пакет · "+o.package+" шт.":o.items.length+" × "+o.unit+" ₽")+" = "+(o.freePilot?"бесплатно":o.total+" ₽")+(o.payments?.length?" · оплачено за доп. правки: "+o.payments.reduce((a,p)=>a+p.amount,0)+" ₽":"");
@@ -219,6 +220,9 @@ document.querySelector("#copy-link").onclick=async()=>{
  catch{hint.textContent="Скопируйте адрес этой страницы из строки браузера."}
 };
 if(/^[a-f0-9]{64}$/.test(key)){
+ const keyBytes=key.match(/../g).map(byte=>parseInt(byte,16));
+ const code=btoa(String.fromCharCode(...keyBytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+ document.querySelector("#save-order-telegram").href="https://t.me/AzatLifeStickersBot?start=order_"+code;
  function checkWaiting(){
   if(autoRefresh&&!document.hidden&&(!order||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
  }
