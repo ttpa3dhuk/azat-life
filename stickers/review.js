@@ -142,6 +142,8 @@ function series(){
 function choose(){
  area.append(el("p","Выберите подходящую версию каждого исправленного стикера."));
  const choices=order.items.map(it=>it.selected||it.versions[0]);
+ const rounds=order.revisionRounds??Number(Boolean(order.revisionRound));
+ const comments=new Map();
  order.items.forEach((item,i)=>{
   if(item.versions.length<2)return;
   area.append(el("h3",(i+1)+". "+item.label));const grid=el("div","","review-grid");area.append(grid);
@@ -149,24 +151,26 @@ function choose(){
    const card=el("label","","review-card"),radio=el("input");radio.type="radio";radio.name="pick"+i;radio.checked=v===choices[i];
    radio.onchange=()=>choices[i]=v;card.append(radio,document.createTextNode(j?"Вариант "+(j+1):"Исходный вариант"),art(v,item.label));grid.append(card);
   });
+  if(rounds<2){
+   const revision=el("details");
+   revision.append(el("summary","Запросить ещё одну правку"));
+   comments.set(i,notes("Что изменить в выбранной версии?",revision));
+   area.append(revision);
+  }
  });
- const rounds=order.revisionRounds??Number(Boolean(order.revisionRound));
- if(rounds<2){
-  const more=el("details");
-  more.append(el("summary","Запросить ещё одну правку"),
-   el("p","Сначала выберите версию, которую хотите изменить. Оставьте комментарий к каждому стикеру, который нужно поправить."));
-  const comments=order.items.map((item,i)=>notes((i+1)+". "+item.label,more));
+ if(comments.size){
   const hint=el("p");
   hint.setAttribute("role","status");
-  more.append(button("Отправить правки",()=>{
-   const feedback=comments.map(comment=>comment.value.trim());
+  area.append(button("Отправить правки",()=>{
+   const feedback=order.items.map((_,i)=>comments.get(i)?.value.trim()||"");
    if(!feedback.some(Boolean)){
-    hint.textContent="Напишите, что изменить хотя бы в одном стикере.";
-    comments[0].focus();return;
+    hint.textContent="Напишите, что изменить в стикере.";
+    const first=comments.values().next().value;
+    first.closest("details").open=true;
+    first.focus();return;
    }
    decision("revise_choices",{choices,notes:feedback});
   }),hint);
-  area.append(more);
  }
  area.append(button(order.telegramAvailable?"Опубликовать выбранные версии в Telegram":"Сохранить выбранные версии",()=>decision("finish",{choices,publishTelegram:!!order.telegramAvailable}),true));
 }
