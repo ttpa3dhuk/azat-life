@@ -1,3 +1,9 @@
+const paymentReturn="stickers.payment-return.v1";
+if(!location.hash&&new URLSearchParams(location.search).get("payment")==="return"){
+ const saved=sessionStorage.getItem(paymentReturn);
+ if(/^[a-f0-9]{64}$/.test(saved||""))history.replaceState(null,"","review.html#"+saved);
+ else location.replace("./");
+}
 const key=location.hash.slice(1);
 const area=document.querySelector("#order-area"), statusLine=document.querySelector("#activity");
 let order=null,busy=false,renderId=0;
@@ -49,7 +55,7 @@ async function decision(action,data={}){
  if(busy)return;busy=true;area.inert=true;statusLine.textContent="Сохраняем…";
  try{
   const finalApproval=action==="finish"||(action==="review_series"&&!data.notes.some(Boolean));
-  if(finalApproval&&order.freePilot&&!await saveContact()){statusLine.textContent="Укажите Telegram перед утверждением.";return}
+  if(finalApproval&&(order.freePilot||order.paidPilot)&&!await saveContact()){statusLine.textContent="Укажите Telegram перед утверждением.";return}
   const r=await api("decision",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({revision:order.revision,action,...data})});
   render(await r.json());statusLine.textContent="Решение сохранено.";
  }catch(e){statusLine.textContent=e.message}
@@ -64,7 +70,7 @@ function art(name,alt){
 function notes(label,container){
  const l=el("label",label),a=el("textarea");a.rows=2;a.maxLength=700;l.append(a);container.append(l);return a
 }
-function quote(){if(order.freePilot)return;
+function quote(){if(order.freePilot||order.paidPilot)return;
  if(order.quote){
   const q=order.quote;
   if(q.status==="requested")area.append(el("p","Запрос стоимости дополнительных правок получен."));
@@ -146,7 +152,23 @@ async function download(){
  try{const blob=await (await api("pack")).blob();const a=el("a");a.href=URL.createObjectURL(blob);a.download="stickers.zip";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
  catch(e){statusLine.textContent=e.message}
 }
-const titles={portrait_queue:"Готовим ваш портрет",portrait_review:"Узнаёте себя?",series_queue:"Готовим ваши реакции",series_review:"Посмотрите весь набор",changes_queue:"Правим отмеченные стикеры",choice:"Выберите версии",done:"Ваш стикерпак готов"};
+function paymentPanel(o){
+ const pending=o.payment?.status==="pending";
+ area.append(el("p",pending?"Оплата пока не подтверждена.":"После оплаты начнём рисовать портрет."));
+ area.append(button((pending?"Перейти к оплате · ":"Оплатить · ")+o.total+" ₽",async()=>{
+  if(busy)return;
+  busy=true;area.inert=true;
+  try{
+   const updated=await (await api("payment",{method:"POST"})).json();
+   if(updated.payment?.url){
+    sessionStorage.setItem(paymentReturn,key);
+    location.assign(updated.payment.url);
+   }else render(updated);
+  }catch(e){statusLine.textContent=e.message}
+  finally{busy=false;area.inert=false}
+ },true));
+}
+const titles={payment_required:"Оплата заказа",portrait_queue:"Готовим ваш портрет",portrait_review:"Узнаёте себя?",series_queue:"Готовим ваши реакции",series_review:"Посмотрите весь набор",changes_queue:"Правим отмеченные стикеры",choice:"Выберите версии",done:"Ваш стикерпак готов"};
 let refreshing=false;
 function waitingPanel(o){
  const panel=el("section","","waiting-panel");
@@ -183,7 +205,8 @@ function render(o){
  const extraPaid=o.payments?.reduce((sum,payment)=>sum+payment.amount,0);
  document.querySelector("#price").textContent=count+" стикеров · "+(o.freePilot?"бесплатно":o.total+" ₽")+(extraPaid?" · правки оплачены: "+extraPaid+" ₽":"");
  document.querySelector("#order-tools").hidden=false;
- if(o.stage==="portrait_review")portraits();
+ if(o.stage==="payment_required")paymentPanel(o);
+ else if(o.stage==="portrait_review")portraits();
  else if(o.stage==="series_review")series();
  else if(o.stage==="choice")choose();
  else if(o.stage==="done")finished(o);
@@ -197,7 +220,8 @@ async function refresh(){
  refreshing=true;
  const previousRender=renderId;
  try{
-  const o=await (await api("order")).json();
+  let o=await (await api("order")).json();
+  if(o.stage==="payment_required"&&o.payment?.status==="pending")o=await (await api("payment")).json();
   if(busy||previousRender!==renderId)return;
   if(!order||o.revision!==order.revision||o.stage!==order.stage||JSON.stringify(o.progress)!==JSON.stringify(order.progress)||o.paused!==order.paused||o.quotaWait!==order.quotaWait)render(o);
   statusLine.textContent="";
@@ -214,7 +238,7 @@ if(/^[a-f0-9]{64}$/.test(key)){
  const code=btoa(String.fromCharCode(...keyBytes)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
  document.querySelector("#save-order-telegram").href="https://t.me/AzatLifeStickersBot?start=order_"+code;
  function checkWaiting(){
-  if(!document.hidden&&(!order||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
+  if(!document.hidden&&(!order||order.stage==="payment_required"||order.stage.endsWith("_queue")||order.telegramPending||order.quote))refresh();
  }
  refresh();setInterval(checkWaiting,15000);
  document.addEventListener("visibilitychange",checkWaiting);

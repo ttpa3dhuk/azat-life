@@ -37,8 +37,9 @@ const defaults={person:"man",stage:0,shot:0,selected:[],extra:[],custom:"",detai
 let s={...defaults};
 try { const saved=JSON.parse(localStorage.getItem(draftKey)); if(saved && ids[saved.stage] && shots[saved.shot] && examples[saved.person] && Array.isArray(saved.selected) && Array.isArray(saved.extra)) s={...defaults,...saved}; }catch{}
 s.scenes=Object.assign(Object.create(null),s.scenes);
-const rates={5:750,12:1490};
-if(!rates[s.pack])s.pack=12;
+let rates={5:0,12:0};
+let pricingReady=typeof pilotInvite==="undefined"||!pilotInvite;
+if(![5,12].includes(s.pack))s.pack=12;
 const files=[null,null,null];
 const photoMessages=["","",""],checks=[0,0,0];
 const roles=["front","left","right"];
@@ -64,7 +65,7 @@ function draw(){
  const labels=allReactions();
  showScenes(labels);
  $("#fill-pack").disabled=labels.length>=s.pack;
- $("#price").textContent=$("#bill").textContent="Выбрано "+labels.length+" из "+s.pack+" · бесплатно";
+ $("#price").textContent=$("#bill").textContent="Выбрано "+labels.length+" из "+s.pack+" · "+(rates[s.pack]?rates[s.pack]+" ₽":"бесплатно");
  $("#chosen").textContent=labels.join(" · ") || "Пока ничего не выбрано";
  $("#custom-list").replaceChildren(...s.extra.map(v=>btn(v+" ×",()=>{s.extra=s.extra.filter(x=>x!==v);save();draw()})));
  document.querySelectorAll("[name=pack]").forEach(r=>r.checked=Number(r.value)===s.pack);
@@ -148,6 +149,7 @@ $("#submit").onclick=async()=>{
  addCustom();
  const message=$("#notice"), button=$("#submit"), labels=allReactions();
  const contact=$("#telegram-contact");
+ if(!pricingReady){message.textContent="Не удалось загрузить цену. Обновите страницу.";return}
  if(!contact.value.trim()){contact.focus();contact.reportValidity();message.textContent="Укажите ваш Telegram.";return}
  if(labels.length!==s.pack){message.textContent="Выберите ровно "+s.pack+" реакций.";return}
  if(!files[0]){message.textContent="Прикрепите фото анфас.";return}
@@ -156,7 +158,7 @@ $("#submit").onclick=async()=>{
  button.disabled=true;message.textContent="Загружаем фотографии…";
  try{
   uploadKey=uploadKey || sessionStorage.getItem(keyName) || token();sessionStorage.setItem(keyName,uploadKey);
-  const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("reactionDescriptions",JSON.stringify(Object.fromEntries(labels.map(label=>[label,sceneFor(label)]))));form.set("details",s.details);
+  const form=new FormData();form.set("packTitle",$("#pack-title").value.trim());form.set("telegramUsername",contact.value.trim());form.set("package",String(s.pack));if(rates[s.pack])form.set("paidPilot","1");extra.forEach(f=>form.append("expression",f));form.set("reactions",JSON.stringify(labels));form.set("reactionDescriptions",JSON.stringify(Object.fromEntries(labels.map(label=>[label,sceneFor(label)]))));form.set("details",s.details);
   roles.forEach((r,i)=>{if(files[i])form.set(r,files[i])});
   const response=await stickerRequest("orders",{method:"POST",headers:{Authorization:"Bearer "+uploadKey},body:form});
   const body=await response.json();
@@ -170,3 +172,17 @@ if(previous && /^review\.html#[a-f0-9]{64}$/.test(previous)){$("#resume-link").h
 $("#start").onclick=()=>{s.shot=0;go(1)};
 $$("[name=pack]").forEach(r=>r.onchange=()=>{s.pack=Number(r.value);save();draw()});
 $("#camera-file").onchange=$("#shot-file").onchange;draw();
+
+if(!pricingReady){
+ stickerRequest("pricing").then(async response=>{
+  if(!response.ok)throw Error();
+  const data=await response.json();
+  rates=data.prices;
+  pricingReady=true;
+  if(rates[5]){
+   $("#pricing-copy").textContent="Выберите размер набора.";
+   $$("[data-price-label]").forEach(label=>{const count=label.dataset.priceLabel;label.textContent=count+" шт. · "+rates[count]+" ₽"});
+  }
+  draw();
+ }).catch(()=>{$("#pricing-copy").textContent="Не удалось загрузить цену. Обновите страницу."});
+}
