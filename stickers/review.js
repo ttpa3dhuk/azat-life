@@ -174,32 +174,19 @@ function choose(){
  }
  area.append(button(order.telegramAvailable?"Опубликовать выбранные версии в Telegram":"Сохранить выбранные версии",()=>decision("finish",{choices,publishTelegram:!!order.telegramAvailable}),true));
 }
-async function publishTelegram(){
- if(busy)return;
- busy=true;area.inert=true;statusLine.textContent="Публикуем набор в Telegram…";
- try{render(await (await api("publish-telegram",{method:"POST"})).json());statusLine.textContent=order.telegramUrl?"Набор опубликован.":""}
- catch(e){statusLine.textContent=e.message}
- finally{busy=false;area.inert=false}
-}
 function finished(o){
- if(o.telegramAvailable||o.telegramUrl){
-  const receive=el("a","Получить набор в личку");
-  receive.href="https://t.me/AzatLifeStickersBot?start=pack_"+o.id;
-  area.append(receive,el("p","Откройте бота с аккаунта, указанного в заказе, и нажмите «Запустить»."));
- }
- if(o.telegramUrl){
-  const link=el("a","Добавить стикерпак в Telegram","primary");link.href=o.telegramUrl;area.append(link);
- }else if(o.telegramPending){
-  area.append(el("p","Публикуем набор в Telegram. Ссылка появится здесь."));
- }else if(o.telegramAvailable){
-  area.append(el("p","После публикации любой человек со ссылкой сможет добавить набор."),
-   button("Опубликовать набор в Telegram",publishTelegram,true));
- }
- area.append(button("Скачать выбранные стикеры",download));quote();
-}
-async function download(){
- try{const blob=await (await api("pack")).blob();const a=el("a");a.href=URL.createObjectURL(blob);a.download="stickers.zip";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),30000)}
- catch(e){statusLine.textContent=e.message}
+ const receive=el("a","Получить в Telegram","primary");
+ receive.href="https://t.me/AzatLifeStickersBot?start=pack_"+o.id;
+ receive.addEventListener("click",async event=>{
+  if(savedContact&&contactInput.value.trim()==="@"+savedContact)return;
+  event.preventDefault();
+  if(busy)return;
+  busy=true;
+  try{if(await saveContact())location.assign(receive.href)}
+  finally{busy=false}
+ });
+ area.append(receive,el("p","Откройте бота с аккаунта, указанного в заказе, и нажмите «Запустить». Файлы для MAX можно скачать в боте."));
+ quote();
 }
 function paymentPanel(o){
  const pending=o.payment?.status==="pending";
